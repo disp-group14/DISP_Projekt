@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "ShareOwnerControl"
+		},
+		{
+			"path": "StockTraderBroker"
+		},
+		{
+			"path": "TobinTaxControl"
+		},
+		{
+			"path": "stockweb"
+		}
+	],
+	"settings": {}
+}
