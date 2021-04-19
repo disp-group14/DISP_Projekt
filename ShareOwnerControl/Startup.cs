@@ -14,7 +14,7 @@ using Microsoft.OpenApi.Models;
 
 namespace ShareOwnerControl
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -28,10 +28,10 @@ namespace ShareOwnerControl
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ShareOwnerControl", Version = "v1" });
-            });
+            services.AddSwaggerDocument();
+            ConfigureIoC(services, Configuration);
+            InitDatabase(services);
+            ConfigureException(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,11 +40,17 @@ namespace ShareOwnerControl
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ShareOwnerControl v1"));
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors(c => 
+            c.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyOrigin()
+            );
 
             app.UseRouting();
 
