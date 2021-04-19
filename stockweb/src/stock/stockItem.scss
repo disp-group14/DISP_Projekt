@@ -1,0 +1,22 @@
+.stockItem{
+    width: 90%;
+    padding: 20px 40px;
+    margin: 20px 0;
+
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+
+    background-color: #E9DA59;
+
+    border-radius: 10px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgba($color: #E9DA59, $alpha: 0.9);
+        box-shadow: rgba($color: black, $alpha: 0.3) 1px 1px;
+    }
+}
+
