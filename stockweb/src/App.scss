@@ -1,0 +1,28 @@
+.app {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.navigation{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  
+  div {
+    min-height: 3em;
+    padding: 1px 1px;
+    margin: 0px 20px;
+    background-color: black;
+  }
+  a {
+    text-decoration: none;
+    color: gray;
+    &.selected{
+      color: black;
+    }
+  }
+  
+
+}
+
