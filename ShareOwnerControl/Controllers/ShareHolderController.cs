@@ -1,44 +1,52 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ShareOwnerControl.BLL;
 using ShareOwnerControl.Models;
 
-namespace ShareOwnerControll.Controller
+namespace ShareOwnerControl.Controller
 {
     [Route("[controller]")]
     [ApiController]
     [Produces("application/json")]
     public class ShareHolderController : ControllerBase
     {
+        private IShareHolderLogic _shareHolderLogic;
+        public ShareHolderController(IShareHolderLogic shareHolderLogic)
+        {
+            _shareHolderLogic = shareHolderLogic;
+        }
+
         [HttpGet]
         public async Task<List<ShareHolder>> Get()
         {
-            throw new NotImplementedException();
+            return (await _shareHolderLogic.Get(includeProperties: new string[]{nameof(ShareHolder.Holdings)})).ToList();
         }
 
         [HttpGet("id")]
         public async Task<ShareHolder> Get(int id)
         {
-            throw new NotImplementedException();
+            return (await _shareHolderLogic.Get(shareHolder =>  shareHolder.Id == id, includeProperties: new string[]{nameof(ShareHolder.Holdings)})).FirstOrDefault();
         }
 
         [HttpPut]
         public async Task<ShareHolder> Put(ShareHolder shareHolder)
         {
-            throw new NotImplementedException();
+            return await _shareHolderLogic.Insert(shareHolder);
         }
 
         [HttpPost]
         public async Task<ShareHolder> Post(ShareHolder shareHolder)
         {
-            throw new NotImplementedException();
+            return await _shareHolderLogic.Update(shareHolder);
         }
 
         [HttpDelete]
         public async Task Delete(ShareHolder shareHolder)
         {
-            throw new NotImplementedException();
+            await _shareHolderLogic.Delete(shareHolder);
         }
     }
 }

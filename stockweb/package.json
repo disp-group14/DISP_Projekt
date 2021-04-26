@@ -24,7 +24,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "nswag swagger2tsclient /input:http://localhost:5000/swagger/v1/swagger.json /output:src/api/api.ts /template:fetch /ExtensionCode:src/api/baseclient.ts /ClientBaseClass:BaseClient /typeScriptVersion:4.1.3 /UseTransformOptionsMethod:true /WrapDtoExceptions:true /runtime:Net50"
+    "codegen-1": "nswag swagger2tsclient /input:http://localhost:5000/swagger/v1/swagger.json /output:src/api/ShareOwnerControl.ts /template:fetch /ExtensionCode:src/api/baseclient.ts /ClientBaseClass:BaseClient /typeScriptVersion:4.1.3 /UseTransformOptionsMethod:true /WrapDtoExceptions:true /runtime:Net50",
+    "codegen-2": "nswag swagger2tsclient /input:http://localhost:5100/swagger/v1/swagger.json /output:src/api/StockTraderBroker.ts /template:fetch /ExtensionCode:src/api/baseclient.ts /ClientBaseClass:BaseClient /typeScriptVersion:4.1.3 /UseTransformOptionsMethod:true /WrapDtoExceptions:true /runtime:Net50"
   },
   "eslintConfig": {
     "extends": [
