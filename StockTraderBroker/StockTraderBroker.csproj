@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grpc.Net.Client" Version="2.37.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.37.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="NSwag.AspNetCore" Version="13.10.9" />
   </ItemGroup>
 
