@@ -19,6 +19,7 @@ namespace ShareOwnerControl.Controller
         {
             _shareLogic = shareLogic;
         }
+        
         [HttpGet]
         public async Task<List<Share>> Get()
         {

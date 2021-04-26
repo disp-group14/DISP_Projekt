@@ -23,7 +23,6 @@ C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Micros
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
-C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Namotion.Reflection.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
@@ -35,9 +34,6 @@ C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\NSwag.
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\NSwag.Core.Yaml.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\NSwag.Generation.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\NSwag.Generation.AspNetCore.dll
-C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\System.Configuration.ConfigurationManager.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\Workspace\DISP\Projekt\DISP_Projekt\ShareOwnerControl\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
