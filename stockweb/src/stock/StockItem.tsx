@@ -11,7 +11,7 @@ export const StockItem: FC<Props> = ({stock: stock}) => {
     return (
         <div className = "stockItem">
             <div>{stock.name}</div>
-            <div>{stock.value}</div>
+            <div>{stock.value} $</div>
         </div>
     )
 

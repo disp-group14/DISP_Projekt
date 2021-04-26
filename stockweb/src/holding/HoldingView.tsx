@@ -6,6 +6,7 @@ const holdings: IHolding[] = [];
 export const HoldingView: FC = () => {
   return (
     <div>
+      <div>hello</div>
       {holdings.map((item) => {
         return (
           <div className = "holdingItem">

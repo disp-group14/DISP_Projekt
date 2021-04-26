@@ -21,7 +21,7 @@ const stocks: Stock[] = [
 export const StockList: FC = () => {
   return (
     <div className ="container">
-        <h1>Stocks</h1>
+        
         <div className= "header">
             <p>Name</p>
             <p>Value</p>
