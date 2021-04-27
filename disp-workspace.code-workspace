@@ -11,7 +11,12 @@
 		},
 		{
 			"path": "stockweb"
+		},
+		{
+			"path": "SalesService"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.formatOnSave": true
+	}
 }
