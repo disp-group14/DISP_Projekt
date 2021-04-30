@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TestClient;
 
 namespace StockTraderBroker
 {
@@ -27,7 +28,9 @@ namespace StockTraderBroker
         {
 
             services.AddControllers();
+            services.AddGrpc();
             services.AddSwaggerDocument();
+            services.AddGrpcClient<TestService.TestServiceClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

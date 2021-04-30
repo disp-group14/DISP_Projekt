@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "stockweb"
+		},
+		{
+			"path": "Protos"
 		}
 	],
 	"settings": {}

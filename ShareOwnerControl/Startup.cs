@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ShareOwnerControl.Services;
 
 namespace ShareOwnerControl
 {
@@ -27,6 +28,7 @@ namespace ShareOwnerControl
         {
 
             services.AddControllers();
+            services.AddGrpc();
             services.AddSwaggerDocument();
             ConfigureIoC(services, Configuration);
             InitDatabase(services);
@@ -56,7 +58,8 @@ namespace ShareOwnerControl
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
+            { 
+                endpoints.MapGrpcService<GrpcService>();
                 endpoints.MapControllers();
             });
         }
