@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "TransactionService.Proto";
+
+package TransactionServiceGrpc;
+
+service ITransactionServiceManager
+{
+
+}
+
+

@@ -1,0 +1,26 @@
+SalesSerice:
+"--urls", "http://localhost:1000/,https://localhost:1001/"
+
+BankService
+"--urls", "http://localhost:2000/,https://localhost:2001/"
+
+OwnershipService
+"--urls", "http://localhost:3000/,https://localhost:3001/"
+
+PurchaseService
+"--urls", "http://localhost:4000/,https://localhost:4001/"
+
+ShareBroker
+"--urls", "http://localhost:5000/,https://localhost:5001/"
+
+StockService
+"--urls", "http://localhost:6000/,https://localhost:6001/"
+
+TaxService
+"--urls", "http://localhost:7000/,https://localhost:7001/"
+
+TransactionService
+"--urls", "http://localhost:8000/,https://localhost:8001/"
+
+UserSedrvice
+"--urls", "http://localhost:9000/,https://localhost:9001/"
