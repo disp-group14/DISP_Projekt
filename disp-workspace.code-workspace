@@ -13,10 +13,8 @@
 			"path": "stockweb"
 		},
 		{
-			"path": "SalesService"
+			"path": "Protos"
 		}
 	],
-	"settings": {
-		"editor.formatOnSave": true
-	}
+	"settings": {}
 }

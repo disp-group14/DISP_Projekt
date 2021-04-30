@@ -4,7 +4,7 @@ namespace StockTraderBroker.Models
 {
     public class SharePurchaseRequest
     {
-        public List<int> ShareId { get; set; }
+        public List<int> ShareIds { get; set; }
         public int ShareOwnerId { get; set; }
     }
 }

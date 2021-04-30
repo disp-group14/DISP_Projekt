@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.15.8" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.37.0" />
     <PackageReference Include="Grpc.Net.Client" Version="2.37.0" />
     <PackageReference Include="Grpc.Tools" Version="2.37.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -12,5 +14,7 @@
     </PackageReference>
     <PackageReference Include="NSwag.AspNetCore" Version="13.10.9" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Protobuf Include="..\Protos\SharePurchaseRequest.proto" GrpcServices="Client" />
+  </ItemGroup>
 </Project>

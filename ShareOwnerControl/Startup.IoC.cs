@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ShareOwnerControl.BLL;
 using ShareOwnerControl.DAL;
 using ShareOwnerControl.DAL.Context;
+using ShareOwnerControl.Protos;
 
 namespace ShareOwnerControl
 {
