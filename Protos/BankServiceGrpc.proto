@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option csharp_namespace = "BankServiceGrpc.Protos";
+
+package BankServiceGrpc;
+
+service BankService
+{
+ rpc Transaction (TransactionRequest) returns (TransactionRequest);
+}
+
+message TransactionRequest {
+    string someData = 1;
+}

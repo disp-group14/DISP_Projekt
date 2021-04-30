@@ -1,18 +1,55 @@
 {
 	"folders": [
 		{
+			"name": "ShareOwnerControl",
 			"path": "ShareOwnerControl"
 		},
 		{
+			"name": "StockTraderBroker",
 			"path": "StockTraderBroker"
 		},
 		{
-			"path": "TobinTaxControl"
-		},
-		{
+			"name": "stockweb",
 			"path": "stockweb"
 		},
 		{
+			"name": "SalesService",
+			"path": "SalesService"
+		},
+		{
+			"name": "BankService",
+			"path": "BankService"
+		},
+		{
+			"name": "OwnershipService",
+			"path": "OwnershipService"
+		},
+		{
+			"name": "PurchaseService",
+			"path": "PurchaseService"
+		},
+		{
+			"name": "ShareBroker",
+			"path": "ShareBroker"
+		},
+		{
+			"name": "StockService",
+			"path": "StockService"
+		},
+		{
+			"name": "TaxService",
+			"path": "TaxService"
+		},
+		{
+			"name": "TransactionService",
+			"path": "TransactionService"
+		},
+		{
+			"name": "UserService",
+			"path": "UserService"
+		},
+		{
+			"name": "Protos",
 			"path": "Protos"
 		}
 	],

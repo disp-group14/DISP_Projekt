@@ -7,6 +7,7 @@ package test;
 service TestService {
     rpc PurchaseRequest (SharePurchaseRequest) returns (SharePurchaseReceipt);
 }
+
 message SharePurchaseRequest {
     int32 ShareHolderId = 1;
     repeated int32 ShareIds = 2;
