@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "SalesServiceGrpc.Protos";
+
+package SalesServiceGrpc;
+
+service ISalesService
+{
+ rpc FindMatch (PurchaseOffer) returns (MatchResponse);
+}
+
+message PurchaseOffer {
+    int32 StockId = 1;
+    int32 amount = 2;
+    float price = 3;
+}
+
+message MatchResponse {
+    // List of all matches (can be empty)
+    repeated Share matches = 1;
+}
+
+// Share interface from Stock service ?
+message Share {
+    int32 stockId = 1;
+    int32 amount = 2;
+    float price = 3;
+}
