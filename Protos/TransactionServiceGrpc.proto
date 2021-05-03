@@ -6,7 +6,13 @@ package TransactionServiceGrpc;
 
 service ITransactionServiceManager
 {
-
+    rpc ShareTransaction (TransactionRequest) returns (TransactionReceipt);
 }
 
+message TransactionRequest {
+    string body = 1;
+}
 
+message TransactionReceipt {
+    string body = 1;
+}

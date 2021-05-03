@@ -14,5 +14,5 @@ message TaxRequest {
 
 message TaxReceipt {
     int32 Amount = 1;
-    int32 TaxPayed = 2;
+    int32 TaxPaid = 2;
 }

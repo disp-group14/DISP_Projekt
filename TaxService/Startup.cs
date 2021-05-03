@@ -28,30 +28,31 @@ namespace TaxService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // IoC
             services.AddGrpc();
+            // IoC
+            services.AddTransient<ITaxDataManager, TaxDataManager>();
 
             // Database setup
             InitDatabase(services);
         }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    {
-        if (env.IsDevelopment())
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGrpcService<TaxServiceManager>();
+            });
         }
-
-        app.UseHttpsRedirection();
-
-        app.UseRouting();
-
-
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapGrpcService<TaxServiceManager>();
-        });
     }
-}
 }
