@@ -496,3 +496,7 @@ temp/
 !.vscode/extensions.json
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,node,csharp
+
+
+# Protofiles for project
+**/Protos
