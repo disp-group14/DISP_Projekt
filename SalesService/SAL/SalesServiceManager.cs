@@ -6,6 +6,7 @@ using SalesService.DAL;
 using SalesService.Models;
 using SalesServiceGrpc.Protos;
 using static SalesServiceGrpc.Protos.ISalesService;
+using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 
 namespace SalesService.SAL {
     public class SalesServiceManager : ISalesServiceBase 
@@ -22,6 +23,7 @@ namespace SalesService.SAL {
         }
 
         public override async Task<MatchResponse> FindMatch(PurchaseOffer purchaseRequest, ServerCallContext context ) {
+            // Create match response
             var MatchResponse = new MatchResponse();
             MatchResponse.Matches.AddRange(
                 (await this.dataManager.Get(saleRequest => matchLogic(saleRequest, purchaseRequest)))
@@ -31,6 +33,5 @@ namespace SalesService.SAL {
             })));
             return MatchResponse;
         }
-
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SalesService.DAL;
 using SalesService.Models;
+using ShareBrokerServiceGrpc.Protos;
+using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 
 namespace SalesService.Controllers
 {
@@ -16,11 +18,15 @@ namespace SalesService.Controllers
     {
 
         private readonly ILogger<SalesController> _logger;
+        private readonly ILogger<SalesController> logger;
         private ISaleRequestDataManger service;
+        private readonly IShareBrokerServiceClient shareBrokerServiceClient;
 
-        public SalesController(ILogger<SalesController> logger, ISaleRequestDataManger service)
+        public SalesController(ILogger<SalesController> logger, ISaleRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient)
         {
+            this.logger = logger;
             this.service = service;
+            this.shareBrokerServiceClient = shareBrokerServiceClient;
         }
 
         [HttpGet]
@@ -32,7 +38,13 @@ namespace SalesService.Controllers
         [HttpPost]
         public async Task<SaleRequest> Post(SaleRequest saleRequest)
         {
-            return await this.service.Insert(saleRequest);
+            var saleRequestModel = await this.service.Insert(saleRequest);
+            this.shareBrokerServiceClient.SellShare(new OfferRequest() {
+                StockId = saleRequest.StockId,
+                Amount = saleRequest.Amount,
+                Price = saleRequest.Price
+            });
+            return saleRequest;
         }
     }
 }
