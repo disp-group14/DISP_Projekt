@@ -23,7 +23,6 @@ namespace SalesService.SAL {
         }
 
         public override async Task<MatchResponse> FindMatch(PurchaseOffer purchaseRequest, ServerCallContext context ) {
-            // Create match response
             var MatchResponse = new MatchResponse();
             MatchResponse.Matches.AddRange(
                 (await this.dataManager.Get(saleRequest => matchLogic(saleRequest, purchaseRequest)))

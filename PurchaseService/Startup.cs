@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using PurchaseService.DAL;
+using PurchaseService.DAL.Context;
+using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 
 namespace PurchaseService
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -26,12 +23,25 @@ namespace PurchaseService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSwaggerDocument();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PurchaseService", Version = "v1" });
+    
+            // IoC
+            services.AddTransient<IPurchaseRequestDataManger, PurchaseRequestDataManager>();
+                        services.AddGrpcClient<IShareBrokerServiceClient>(client => {
+                client.Address = new System.Uri("https://localhost:5001");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
             });
+
+            string connectionString = Configuration.GetValue<string>("DBConnection");
+            services.AddDbContext<PurchaseServiceControlDbContext>(options => options.UseSqlServer(connectionString, builder => builder.CommandTimeout(300)));
+
+
+            InitDatabase(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,9 +49,9 @@ namespace PurchaseService
         {
             if (env.IsDevelopment())
             {
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PurchaseService v1"));
             }
 
             app.UseHttpsRedirection();

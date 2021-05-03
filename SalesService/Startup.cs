@@ -28,9 +28,6 @@ namespace SalesService
 
             // IoC
             services.AddTransient<ISaleRequestDataManger,SaleRequestDataManager>();
-            // var httpHandler = new HTTPClientHandler {
-            //     ServerCertificateCustomerValidationCallback = HTTPClientHandler
-            // };
             services.AddGrpcClient<IShareBrokerServiceClient>(client => {
                 client.Address = new System.Uri("https://localhost:5001");
             })
