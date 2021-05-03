@@ -13,9 +13,6 @@
             "args": ["--urls", "http://localhost:7000/;https://localhost:7001/"],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
-            "serverReadyAction": {
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },

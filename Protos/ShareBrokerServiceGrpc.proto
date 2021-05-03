@@ -11,9 +11,9 @@ service IShareBrokerService
 }
 
 message OfferRequest {
-    int32 shareId = 1;
+    int32 stockId = 1;
     int32 amount = 2;
-    string price = 3;
+    float price = 3;
 }
 
 message OfferRegistration {
@@ -21,9 +21,9 @@ message OfferRegistration {
 }
 
 message OfferReceipt {
-    int32 shareId = 1;
+    int32 stockId = 1;
     int32 amount = 2;
-    string price = 3;
+    float price = 3;
 }
 
 message OfferResponse {

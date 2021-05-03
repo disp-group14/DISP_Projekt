@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using static TaxServiceGrpc.Proto.ITaxServiceManager;
 
 namespace TransactionService
 {
@@ -29,7 +29,8 @@ namespace TransactionService
             services.AddGrpc();
 
             // IoC
-
+            services.AddGrpcClient<ITaxServiceManagerClient>();
+            
             // Swagger
 
             // Database Setup
