@@ -17,10 +17,6 @@
 			"path": "SalesService"
 		},
 		{
-			"name": "BankService",
-			"path": "BankService"
-		},
-		{
 			"name": "OwnershipService",
 			"path": "OwnershipService"
 		},
@@ -41,6 +37,10 @@
 			"path": "TaxService"
 		},
 		{
+			"name": "BankService",
+			"path": "BankService"
+		},
+		{
 			"name": "TransactionService",
 			"path": "TransactionService"
 		},
@@ -53,6 +53,7 @@
 			"path": "Protos"
 		},
 		{
+			"name": "Util",
 			"path": "Util"
 		}
 	],

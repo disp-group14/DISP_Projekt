@@ -8,6 +8,6 @@ Copy-Item -Path .\Protos -Destination .\StockService -Force -Recurse
 Copy-Item -Path .\Protos -Destination .\StockTraderBroker -Force -Recurse
 Copy-Item -Path .\Protos -Destination .\stockweb -Force -Recurse
 Copy-Item -Path .\Protos -Destination .\TaxService -Force -Recurse
-Copy-Item -Path .\Protos -Destination .\TobinTaxControl -Force -Recurse
+Copy-Item -Path .\Protos -Destination .\UserService -Force -Recurse
 Copy-Item -Path .\Protos -Destination .\TransactionService -Force -Recurse
 
