@@ -29,7 +29,7 @@ namespace PurchaseService
             // IoC
             services.AddTransient<IPurchaseRequestDataManger, PurchaseRequestDataManager>();
                         services.AddGrpcClient<IShareBrokerServiceClient>(client => {
-                client.Address = new System.Uri("https://localhost:5001");
+                client.Address = new System.Uri("http://localhost:5000");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();
