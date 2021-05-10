@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PurchaseService.DAL;
 using PurchaseService.DAL.Context;
+using PurchaseService.SAL;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 
 namespace PurchaseService
@@ -25,7 +26,7 @@ namespace PurchaseService
         {
             services.AddSwaggerDocument();
             services.AddControllers();
-    
+            services.AddGrpc();
             // IoC
             services.AddTransient<IPurchaseRequestDataManger, PurchaseRequestDataManager>();
                         services.AddGrpcClient<IShareBrokerServiceClient>(client => {
@@ -63,7 +64,9 @@ namespace PurchaseService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<PurchaseServiceManager>();
             });
+            
         }
     }
 }

@@ -28,8 +28,8 @@ namespace ShareBrokerService.SAL {
             }
             return accPrice;
         }
-        async public override Task<OfferResponse> SellShare(OfferRequest request, ServerCallContext context ) {
-            var response = await purchaseService.FindMatchAsync(new SaleOffer() {
+        public override async Task<OfferResponse> SellShare(OfferRequest request, ServerCallContext context ) {
+            var response = purchaseService.FindMatch(new SaleOffer() {
                 StockId = request.StockId,
                 Amount = request.Amount,
                 Price = request.Price

@@ -17,18 +17,15 @@ namespace PurchaseService.SAL {
             this.dataManager = dataManager;
         }
 
-        private bool matchLogic(PurchaseRequest purchaseRequest, SaleOffer saleOffer ) {
-            return purchaseRequest.Price == saleOffer.Price && purchaseRequest.StockId == saleOffer.StockId;
-        }
-
         public override async Task<MatchResponse> FindMatch(SaleOffer saleOffer, ServerCallContext context ) {
             var MatchResponse = new MatchResponse();
-            MatchResponse.Matches.AddRange(
-                (await this.dataManager.Get(purchaseRequest => matchLogic(purchaseRequest, saleOffer)))
+            var matches = (await this.dataManager.Get(purchaseRequest => purchaseRequest.StockId == saleOffer.StockId))
+                .Where(offer => offer.Price <= saleOffer.Price)
                 .Select(purchaseRequest => (new Share {
                 StockId = purchaseRequest.Id,
                 Amount = purchaseRequest.Amount
-            })));
+            }));
+            MatchResponse.Matches.AddRange(matches);
             return MatchResponse;
         }
     }
