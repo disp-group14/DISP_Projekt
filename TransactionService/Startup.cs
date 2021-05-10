@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +30,14 @@ namespace TransactionService
             services.AddGrpc();
 
             // IoC
-            services.AddGrpcClient<ITaxServiceManagerClient>();
+            services.AddGrpcClient<ITaxServiceManagerClient>(client => {
+                client.Address = Configuration.GetValue<Uri>("TaxServiceUri");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
+            });
             
             // Swagger
 

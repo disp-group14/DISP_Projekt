@@ -1,4 +1,4 @@
-using TaxService.DAL.Base;
+using UserService.DAL.Base;
 using UserService.Models;
 
 namespace UserService.DAL

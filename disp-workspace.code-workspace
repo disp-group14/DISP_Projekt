@@ -1,14 +1,6 @@
 {
 	"folders": [
 		{
-			"name": "ShareOwnerControl",
-			"path": "ShareOwnerControl"
-		},
-		{
-			"name": "StockTraderBroker",
-			"path": "StockTraderBroker"
-		},
-		{
 			"name": "stockweb",
 			"path": "stockweb"
 		},

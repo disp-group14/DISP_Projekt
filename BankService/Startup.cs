@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BankService.DAL;
 using BankService.SAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +16,7 @@ using static BankServiceGrpc.Protos.BankService;
 
 namespace BankService
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -31,9 +32,11 @@ namespace BankService
             services.AddGrpc();
 
             // Ioc
-            services.AddTransient<BankServiceBase, BankServiceManager>();
-            // Database setup
+            services.AddTransient<IAccountDataManager, AccountDataManager>();
 
+            // Database setup
+            InitDatabase(services);
+            
             // Swagger
             services.AddSwaggerDocument();
         }
@@ -56,6 +59,7 @@ namespace BankService
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<BankServiceManager>();
                 endpoints.MapControllers();
             });
         }

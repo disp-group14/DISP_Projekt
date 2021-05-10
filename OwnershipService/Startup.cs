@@ -10,11 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+using OwnershipService.SAL;
 
 namespace OwnershipService
 {
-    public class Startup
+    public partial class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -27,11 +27,15 @@ namespace OwnershipService
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddSwaggerDocument();
+            services.AddGrpc();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "OwnershipService", Version = "v1" });
-            });
+
+            // IoC
+            ConfigureIoC(services);
+
+            // 
+            InitDatabase(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,8 +44,8 @@ namespace OwnershipService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OwnershipService v1"));
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();
@@ -52,6 +56,7 @@ namespace OwnershipService
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<OwnershipServiceManager>();
                 endpoints.MapControllers();
             });
         }

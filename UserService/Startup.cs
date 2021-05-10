@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using UserService.DAL;
+using UserService.SAL;
+using static BankServiceGrpc.Protos.BankService;
 
 namespace UserService
 {
@@ -27,10 +31,9 @@ namespace UserService
         {
             services.AddGrpc();
             services.AddControllers();
-
+            services.AddSwaggerDocument();
             // IoC
-            
-
+            ConfigureIoC(services);
             // Database setup
             InitDatabase(services);
         }
@@ -41,6 +44,8 @@ namespace UserService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseHttpsRedirection();
@@ -51,6 +56,7 @@ namespace UserService
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<UserServiceManager>();
                 endpoints.MapControllers();
             });
         }

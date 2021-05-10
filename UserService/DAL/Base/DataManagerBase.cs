@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using UserService.DAL;
 using UserService.Models;
 
-namespace TaxService.DAL.Base
+namespace UserService.DAL.Base
 {
     public interface IDataManagerBase<TModel> where TModel : class
     {
