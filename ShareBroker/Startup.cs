@@ -1,3 +1,5 @@
+
+
 using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,6 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ShareBrokerService.SAL;
+using static SalesServiceGrpc.Protos.ISalesService;
+using static PurchaseServiceGrpc.Protos.IPurchaseService;
+using System;
 
 namespace ShareBroker
 {
@@ -22,8 +27,17 @@ namespace ShareBroker
         {
             services.AddGrpc();
             
-            services.AddGrpcClient<SalesServiceGrpc.Protos.ISalesService>(client => {
-                client.Address = new System.Uri("https://localhost:5001");
+            services.AddGrpcClient<ISalesServiceClient>(client => {
+                client.Address = Configuration.GetValue<Uri>("SalesServiceUri");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
+            });
+
+            services.AddGrpcClient<IPurchaseServiceClient>(client => {
+                client.Address = Configuration.GetValue<Uri>("PurchaseServiceUri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();
