@@ -21,5 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include=".\Protos\UserServiceGrpc.proto" GrpcServices="Server" />
+    <Protobuf Include=".\Protos\BankServiceGrpc.proto" GrpcServices="Client" />
+    <Protobuf Include=".\Protos\OwnershipServiceGrpc.proto" GrpcServices="Client" />
   </ItemGroup>
 </Project>

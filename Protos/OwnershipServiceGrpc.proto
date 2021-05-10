@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "OwnershipServiceGrpc.Protos";
+
+package OwnershipServiceGrpc;
+
+service IOwnershipService
+{
+ rpc RegisterUser (UserRegistrationRequest) returns (Empty);
+}
+
+
+message UserRegistrationRequest {
+    int32 userId = 1;
+}
+
+message Empty {}

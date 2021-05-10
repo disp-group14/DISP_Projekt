@@ -497,6 +497,16 @@ temp/
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,node,csharp
 
-
-# Protofiles for project
-**/Protos
+UserService/Protos/*
+TransactionService/Protos/*
+BankService/Protos/*
+TaxService/Protos/*
+StockService/Protos/*
+ShareBroker/Protos/*
+PurchaseService/Protos/*
+OwnershipService/Protos/*
+SalesService/Protos/*
+stockweb/Protos/*
+UserService/Protos/*
+ShareOwnerControl/Protos/*
+StockTraderBroker/Protos/*

@@ -7,8 +7,18 @@ package BankServiceGrpc;
 service BankService
 {
  rpc Transaction (TransactionRequest) returns (TransactionRequest);
+ rpc RegisterUser (UserRegistrationRequest) returns (AccountInfo);
 }
 
 message TransactionRequest {
     string someData = 1;
+}
+
+message UserRegistrationRequest {
+    int32 userId = 1;
+}
+
+message AccountInfo {
+    int32 userId = 1;
+    int32 balance = 2;
 }
