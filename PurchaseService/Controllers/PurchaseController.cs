@@ -8,6 +8,8 @@ using PurchaseService.DAL;
 using PurchaseService.Models;
 using ShareBrokerServiceGrpc.Protos;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
+using OwnershipServiceGrpc.Protos;
+using static OwnershipServiceGrpc.Protos.IOwnershipService;
 
 namespace SalesService.Controllers
 {
@@ -21,12 +23,14 @@ namespace SalesService.Controllers
         private readonly ILogger<PurchaseController> logger;
         private IPurchaseRequestDataManger service;
         private readonly IShareBrokerServiceClient shareBrokerServiceClient;
+        private readonly IOwnershipServiceClient ownershipServiceClient;
 
-        public PurchaseController(ILogger<PurchaseController> logger, IPurchaseRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient)
+        public PurchaseController(ILogger<PurchaseController> logger, IPurchaseRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient, IOwnershipServiceClient ownershipServiceClient)
         {
             this.logger = logger;
             this.service = service;
             this.shareBrokerServiceClient = shareBrokerServiceClient;
+            this.ownershipServiceClient = ownershipServiceClient;
         }
 
         [HttpGet]
@@ -36,15 +40,25 @@ namespace SalesService.Controllers
         }
 
         [HttpPost]
-        public async Task<PurchaseRequest> Post(PurchaseRequest purchaseRequest)
+        public async Task<OfferResponse> Post(PurchaseRequest purchaseRequest)
         {
-            var purchaseRequestModel = await this.service.Insert(purchaseRequest);
-            await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
+            // Verify user ownership
+            var response = ownershipServiceClient.GetShareHolder(new ShareHolderRequest(){
+                UserId = purchaseRequest.UserId
+            });
+
+            // Return result from share broker
+            var brokerResponse = await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
                 StockId = purchaseRequest.StockId,
                 Amount = purchaseRequest.Amount,
                 Price = purchaseRequest.Price
             });
-            return purchaseRequest;
+            
+            if (brokerResponse.ResponseCase == OfferResponse.ResponseOneofCase.Registration) {
+                // Save request in db
+                var purchaseRequestModel = await this.service.Insert(purchaseRequest);
+            }
+            return brokerResponse;
         }
     }
 }

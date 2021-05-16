@@ -21,7 +21,9 @@
   </ItemGroup>
   <ItemGroup>
     <Protobuf Include=".\Protos\PurchaseServiceGrpc.proto" GrpcServices="Server" />
-    <Protobuf Include=".\Protos\ShareBrokerServiceGrpc.proto" GrpcServices="Client" />    
+    <Protobuf Include=".\Protos\ShareBrokerServiceGrpc.proto" GrpcServices="Client" />
+    <Protobuf Include=".\Protos\OwnershipServiceGrpc.proto" GrpcServices="Client" />    
+    <Protobuf Include=".\Protos\SharedGrpc.proto" />    
   </ItemGroup>
 
 </Project>

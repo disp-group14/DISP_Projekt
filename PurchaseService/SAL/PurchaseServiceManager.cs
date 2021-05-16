@@ -5,6 +5,7 @@ using Grpc.Core;
 using PurchaseService.DAL;
 using PurchaseService.Models;
 using PurchaseServiceGrpc.Protos;
+using SharedGrpc.Protos;
 using static PurchaseServiceGrpc.Protos.IPurchaseService;
 
 namespace PurchaseService.SAL {

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using PurchaseService.DAL;
 using PurchaseService.DAL.Context;
 using PurchaseService.SAL;
+using static OwnershipServiceGrpc.Protos.IOwnershipService;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 
 namespace PurchaseService
@@ -29,8 +30,18 @@ namespace PurchaseService
             services.AddGrpc();
             // IoC
             services.AddTransient<IPurchaseRequestDataManger, PurchaseRequestDataManager>();
-                        services.AddGrpcClient<IShareBrokerServiceClient>(client => {
+            // Share broker
+            services.AddGrpcClient<IShareBrokerServiceClient>(client => {
                 client.Address = new System.Uri("http://localhost:5000");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
+            });
+            // Ownership service
+            services.AddGrpcClient<IOwnershipServiceClient>(client => {
+                client.Address = new System.Uri("http://localhost:3000/");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();

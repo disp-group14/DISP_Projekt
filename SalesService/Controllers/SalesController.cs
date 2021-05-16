@@ -43,24 +43,26 @@ namespace SalesService.Controllers
         public async Task<OfferResponse> Post(SaleRequest saleRequest)
         {
             // Verify user ownership
-            var response = ownershipServiceClient.GetStockOwners(new StockOwnerRequest(){
-                StockId = saleRequest.StockId
+            var response = ownershipServiceClient.GetShareHolder(new ShareHolderRequest(){
+                UserId = purchaseRequest.UserId
             });
 
-            if (response.Owners.First(user => user.Id == saleRequest.UserId) == null) {
+            if (response.ShareHolder == null) {
                 throw new Exception("Invalid sale request. User with id: " + saleRequest.UserId.ToString() + 
                 " does not own a share in stock with id: " + saleRequest.StockId.ToString());
             }
-
-            // Save request in db
-            var saleRequestModel = await this.service.Insert(saleRequest);
-
             // Return result from share broker
-            return this.shareBrokerServiceClient.SellShare(new OfferRequest() {
+            var brokerResponse = await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
                 StockId = saleRequest.StockId,
                 Amount = saleRequest.Amount,
                 Price = saleRequest.Price
             });
+            
+            if (brokerResponse.ResponseCase == OfferResponse.ResponseOneofCase.Registration) {
+                // Save request in db
+                var saleRequestModel = await this.service.Insert(saleRequest);
+            }
+            return brokerResponse;
         }
     }
 }

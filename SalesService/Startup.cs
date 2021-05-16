@@ -30,6 +30,7 @@ namespace SalesService
 
             // IoC
             services.AddTransient<ISaleRequestDataManger,SaleRequestDataManager>();
+            // Share broker
             services.AddGrpcClient<IShareBrokerServiceClient>(client => {
                 client.Address = new System.Uri("https://localhost:5001");
             })
@@ -38,6 +39,7 @@ namespace SalesService
                 handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 return handler;
             });
+            // Ownership service
             services.AddGrpcClient<IOwnershipServiceClient>(client => {
                 client.Address = new System.Uri("http://localhost:3000/");
             })

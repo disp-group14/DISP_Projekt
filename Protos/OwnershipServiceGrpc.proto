@@ -16,6 +16,10 @@ message ShareHolderRequest {
 }
 
 message ShareHolderResponse {
+    optional ShareHolder shareHolder = 1;
+}
+
+message ShareHolder {
     int32 UserId = 1;
     repeated SharedGrpc.Share Shares = 2;
 }
