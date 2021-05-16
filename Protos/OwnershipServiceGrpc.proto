@@ -7,12 +7,15 @@ package OwnershipServiceGrpc;
 
 service IOwnershipService
 {
- rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (Empty);
- // rpc GetStockOwners (StockOwnerRequest) returns (SharedGrpc.User);
+    rpc GetShareHolder (ShareHolderRequest) returns (ShareHolderResponse);
+    rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (SharedGrpc.Empty);
 }
 
-message Empty {}
+message ShareHolderRequest {
+    int32 UserId = 1;
+}
 
-message StockOwnerRequest {
-    string StockId = 1;
+message ShareHolderResponse {
+    int32 UserId = 1;
+    repeated SharedGrpc.Share Shares = 2;
 }
