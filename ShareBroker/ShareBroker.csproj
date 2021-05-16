@@ -23,6 +23,7 @@
     <Protobuf Include=".\Protos\ShareBrokerServiceGrpc.proto" GrpcServices="Server" />
     <Protobuf Include=".\Protos\SalesServiceGrpc.proto" GrpcServices="Client" />
     <Protobuf Include=".\Protos\PurchaseServiceGrpc.proto" GrpcServices="Client" />
+    <Protobuf Include=".\Protos\TransactionServiceGrpc.proto" GrpcServices="Client" />
     <Protobuf Include=".\Protos\SharedGrpc.proto"/>
   </ItemGroup>
 </Project>

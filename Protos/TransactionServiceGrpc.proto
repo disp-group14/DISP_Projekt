@@ -4,7 +4,7 @@ option csharp_namespace = "TransactionService.Proto";
 
 package TransactionServiceGrpc;
 
-service ITransactionServiceManager
+service ITransactionService
 {
     rpc PerformTransaction (TransactionRequest) returns (TransactionReceipt);
 }

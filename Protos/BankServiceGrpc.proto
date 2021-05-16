@@ -6,19 +6,22 @@ package BankServiceGrpc;
 
 service BankService
 {
- rpc Transaction (TransactionRequest) returns (TransactionRequest);
+ rpc Deposit (TransferRequest) returns (AccountInfo);
+ rpc Withdraw (TransferRequest) returns (AccountInfo);
  rpc RegisterUser (UserRegistrationRequest) returns (AccountInfo);
 }
 
-message TransactionRequest {
-    string someData = 1;
-}
 
 message UserRegistrationRequest {
-    int32 userId = 1;
+    int32 UserId = 1;
+}
+
+message TransferRequest {
+    float Amount = 1;
+    int32 UserId = 2;
 }
 
 message AccountInfo {
-    int32 userId = 1;
-    int32 balance = 2;
+    int32 UserId = 1;
+    int32 Balance = 2;
 }

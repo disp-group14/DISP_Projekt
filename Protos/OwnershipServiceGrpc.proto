@@ -9,6 +9,7 @@ service IOwnershipService
 {
     rpc GetShareHolder (ShareHolderRequest) returns (ShareHolderResponse);
     rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (SharedGrpc.Empty);
+    rpc ChangeOwnership (ChangeOwnershipRequest) returns (ShareHolderResponse);
 }
 
 message ShareHolderRequest {
@@ -22,4 +23,9 @@ message ShareHolderResponse {
 message ShareHolder {
     int32 UserId = 1;
     repeated SharedGrpc.Share Shares = 2;
+}
+
+message ChangeOwnershipRequest {
+    int32 NewUserId = 1;
+    repeated int32 ShareIds = 2;
 }

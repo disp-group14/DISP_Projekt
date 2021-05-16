@@ -8,17 +8,21 @@ using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 using PurchaseServiceGrpc.Protos;
 using SharedGrpc.Protos;
 using Google.Protobuf.Collections;
+using static TransactionService.Proto.ITransactionService;
+using TransactionService.Proto;
 
 namespace ShareBrokerService.SAL {
     public class ShareBrokerServiceManager : IShareBrokerServiceBase 
     {
         private readonly ISalesServiceClient salesService;
         private readonly IPurchaseServiceClient purchaseService;
+        private readonly ITransactionServiceClient transactionService;
 
-        public ShareBrokerServiceManager(ISalesServiceClient salesService, IPurchaseServiceClient purchaseService)
+        public ShareBrokerServiceManager(ISalesServiceClient salesService, IPurchaseServiceClient purchaseService, ITransactionServiceClient transactionService)
         {
             this.salesService = salesService;
             this.purchaseService = purchaseService;
+            this.transactionService = transactionService;
         }
 
 
@@ -65,7 +69,11 @@ namespace ShareBrokerService.SAL {
             });
 
             if (response.Matches.Count > 0) {
-                // If a match was found, 
+                // If a match was found, perform transaction
+
+                var transactionResponse = await this.transactionService.PerformTransactionAsync(new TransactionRequest() {});
+
+
                 return new OfferResponse(){
                     Receipt = new OfferReceipt() {
                         StockId = request.StockId,
@@ -73,7 +81,7 @@ namespace ShareBrokerService.SAL {
                         Price = sumMatchesPrice(response.Matches)
                     }
                 };
-            } // If no matches were found, return a recipt
+            } // If no matches were found, return registration notice
                 return new OfferResponse(){
                     Registration = new OfferRegistration(){
                         Message = "We've succesfully registered your offer. Whenver a seller matches your offer, a trade will be conducted"
