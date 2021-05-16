@@ -6,7 +6,6 @@ using SalesService.DAL;
 using SalesService.Models;
 using SalesServiceGrpc.Protos;
 using static SalesServiceGrpc.Protos.ISalesService;
-using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 
 namespace SalesService.SAL {
     public class SalesServiceManager : ISalesServiceBase 

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option csharp_namespace = "SharedGrpc.Protos";
+
+package SharedGrpc;
+
+message UserRegistrationRequest {
+    int32 userId = 1;
+}
+
+message Share {
+    int32 stockId = 1;
+    int32 amount = 2;
+    float price = 3;
+}

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option csharp_namespace = "PurchaseServiceGrpc.Protos";
 
+import "Protos/SharedGrpc.proto";
 package PurchaseServiceGrpc;
 
 service IPurchaseService
@@ -17,12 +18,5 @@ message SaleOffer {
 
 message MatchResponse {
     // List of all matches (can be empty)
-    repeated Share matches = 1;
-}
-
-// Share interface from Stock service ?
-message Share {
-    int32 stockId = 1;
-    int32 amount = 2;
-    float price = 3;
+    repeated SharedGrpc.Share matches = 1;
 }

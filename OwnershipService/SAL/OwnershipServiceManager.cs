@@ -3,6 +3,7 @@ using Grpc.Core;
 using OwnershipService.DAL;
 using OwnershipService.Models;
 using OwnershipServiceGrpc.Protos;
+using SharedGrpc.Protos;
 using static OwnershipServiceGrpc.Protos.IOwnershipService;
 
 namespace OwnershipService.SAL

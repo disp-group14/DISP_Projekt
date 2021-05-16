@@ -2,16 +2,12 @@ syntax = "proto3";
 
 option csharp_namespace = "OwnershipServiceGrpc.Protos";
 
+import "Protos/SharedGrpc.proto";
 package OwnershipServiceGrpc;
 
 service IOwnershipService
 {
- rpc RegisterUser (UserRegistrationRequest) returns (Empty);
-}
-
-
-message UserRegistrationRequest {
-    int32 userId = 1;
+ rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (Empty);
 }
 
 message Empty {}
