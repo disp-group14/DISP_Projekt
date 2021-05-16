@@ -8,6 +8,8 @@ using SalesService.DAL;
 using SalesService.Models;
 using ShareBrokerServiceGrpc.Protos;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
+using OwnershipServiceGrpc.Protos;
+using static OwnershipServiceGrpc.Protos.IOwnershipService;
 
 namespace SalesService.Controllers
 {
@@ -21,12 +23,14 @@ namespace SalesService.Controllers
         private readonly ILogger<SalesController> logger;
         private ISaleRequestDataManger service;
         private readonly IShareBrokerServiceClient shareBrokerServiceClient;
+        private readonly IOwnershipServiceClient ownershipServiceClient;
 
-        public SalesController(ILogger<SalesController> logger, ISaleRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient)
+        public SalesController(ILogger<SalesController> logger, ISaleRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient, IOwnershipServiceClient ownershipServiceClient)
         {
             this.logger = logger;
             this.service = service;
             this.shareBrokerServiceClient = shareBrokerServiceClient;
+            this.ownershipServiceClient = ownershipServiceClient;
         }
 
         [HttpGet]
@@ -36,15 +40,27 @@ namespace SalesService.Controllers
         }
 
         [HttpPost]
-        public async Task<SaleRequest> Post(SaleRequest saleRequest)
+        public async Task<OfferResponse> Post(SaleRequest saleRequest)
         {
+            // Verify user ownership
+            var response = ownershipServiceClient.GetStockOwners(new StockOwnerRequest(){
+                StockId = saleRequest.StockId
+            });
+
+            if (response.Owners.First(user => user.Id == saleRequest.UserId) == null) {
+                throw new Exception("Invalid sale request. User with id: " + saleRequest.UserId.ToString() + 
+                " does not own a share in stock with id: " + saleRequest.StockId.ToString());
+            }
+
+            // Save request in db
             var saleRequestModel = await this.service.Insert(saleRequest);
-            this.shareBrokerServiceClient.SellShare(new OfferRequest() {
+
+            // Return result from share broker
+            return this.shareBrokerServiceClient.SellShare(new OfferRequest() {
                 StockId = saleRequest.StockId,
                 Amount = saleRequest.Amount,
                 Price = saleRequest.Price
             });
-            return saleRequest;
         }
     }
 }

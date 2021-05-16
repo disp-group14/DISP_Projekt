@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using SalesService.DAL;
 using SalesService.DAL.Context;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
+using static OwnershipServiceGrpc.Protos.IOwnershipService;
+
 
 namespace SalesService
 {
@@ -30,6 +32,14 @@ namespace SalesService
             services.AddTransient<ISaleRequestDataManger,SaleRequestDataManager>();
             services.AddGrpcClient<IShareBrokerServiceClient>(client => {
                 client.Address = new System.Uri("https://localhost:5001");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
+            });
+            services.AddGrpcClient<IOwnershipServiceClient>(client => {
+                client.Address = new System.Uri("http://localhost:3000/");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();

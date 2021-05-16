@@ -1,10 +1,10 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using SalesService.DAL;
 using SalesService.Models;
 using SalesServiceGrpc.Protos;
+using SharedGrpc.Protos;
 using static SalesServiceGrpc.Protos.ISalesService;
 
 namespace SalesService.SAL {

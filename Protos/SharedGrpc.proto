@@ -13,3 +13,7 @@ message Share {
     int32 amount = 2;
     float price = 3;
 }
+
+message User {
+    int32 id = 1;
+}

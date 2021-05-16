@@ -8,6 +8,11 @@ package OwnershipServiceGrpc;
 service IOwnershipService
 {
  rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (Empty);
+ // rpc GetStockOwners (StockOwnerRequest) returns (SharedGrpc.User);
 }
 
 message Empty {}
+
+message StockOwnerRequest {
+    string StockId = 1;
+}
