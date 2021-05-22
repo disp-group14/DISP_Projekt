@@ -19,3 +19,8 @@ message Empty {}
 message User {
     int32 id = 1;
 }
+
+message AccountInfo {
+    int32 UserId = 1;
+    int32 Balance = 2;
+}

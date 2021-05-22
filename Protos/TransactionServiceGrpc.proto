@@ -2,11 +2,12 @@ syntax = "proto3";
 
 option csharp_namespace = "TransactionService.Protos";
 
+import "Protos/SharedGrpc.proto";
 package TransactionServiceGrpc;
 
 service ITransactionService
 {
-    rpc PerformTransaction (TransactionRequest) returns (TransactionReceipt);
+    rpc PerformTransaction (TransactionRequest) returns (SharedGrpc.AccountInfo);
 }
 
 message TransactionRequest {
@@ -17,5 +18,5 @@ message TransactionRequest {
 }
 
 message TransactionReceipt {
-    string body = 1;
+    SharedGrpc.AccountInfo buyerAccountInfo = 1;
 }

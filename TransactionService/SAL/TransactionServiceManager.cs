@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
+using BankServiceGrpc.Protos;
 using Grpc.Core;
 using OwnershipServiceGrpc.Protos;
+using SharedGrpc.Protos;
 using TaxServiceGrpc.Protos;
 using TransactionService.Protos;
 using static BankServiceGrpc.Protos.IBankService;
@@ -24,30 +26,30 @@ namespace TransactionService.SAL
             this.taxServiceClient = taxServiceClient;
         }
 
-        public async override Task<TransactionReceipt> PerformTransaction(TransactionRequest request, ServerCallContext context)
+        public async override Task<AccountInfo> PerformTransaction(TransactionRequest request, ServerCallContext context)
         {
             // All rpcs are critical here. If one fails, all should undo changes. E.g. if buyer's BankService throws an error, ownership should not be changed.
             // How is fallback typically implemented in distributed systems?
 
-
             // Tax transaction
-            TaxReceipt tax = await this.taxServiceClient.TaxTransactionAsync(new TaxRequest() {
+            TaxReceipt taxReceipt = await this.taxServiceClient.TaxTransactionAsync(new TaxRequest() {
                 Amount = request.Amount
             });
 
+            // Charge buyer
+            AccountInfo buyerAccount = await this.bankServiceClient.WithdrawAsync(new TransferRequest() {
+                Amount = taxReceipt.Amount
+            });
 
             // Update ownership
             ChangeOwnershipRequest ownershipRequest = new ChangeOwnershipRequest() {
                 NewUserId = request.BuyerUserId
             };
             ownershipRequest.ShareIds.AddRange(request.ShareIds);
-
             ShareHolderResponse buyerShareHolder = await this.ownershipServiceClient.ChangeOwnershipAsync(ownershipRequest);
 
-
-
-
-            return await base.PerformTransaction(request, context);
+            // Respond
+            return new AccountInfo(buyerAccount);
         }
 
     }

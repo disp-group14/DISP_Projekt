@@ -9,10 +9,10 @@ service ITaxService {
 }
 
 message TaxRequest {
-    int32 Amount = 1;
+    float Amount = 1;
 }
 
 message TaxReceipt {
-    int32 Amount = 1;
-    int32 TaxPaid = 2;
+    float Amount = 1;
+    float TaxPaid = 2;
 }
