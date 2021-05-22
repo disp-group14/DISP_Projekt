@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "TransactionService.Proto";
+option csharp_namespace = "TransactionService.Protos";
 
 package TransactionServiceGrpc;
 
@@ -10,7 +10,10 @@ service ITransactionService
 }
 
 message TransactionRequest {
-    string body = 1;
+    repeated int32 ShareIds = 1;
+    int32 BuyerUserId = 2;
+    int32 SellerUserId = 3;
+    float Amount = 4;
 }
 
 message TransactionReceipt {

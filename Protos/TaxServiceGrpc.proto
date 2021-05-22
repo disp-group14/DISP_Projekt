@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-option csharp_namespace = "TaxServiceGrpc.Proto";
+option csharp_namespace = "TaxServiceGrpc.Protos";
 
 package TaxServiceGrpc;
 
-service ITaxServiceManager {
+service ITaxService {
     rpc TaxTransaction (TaxRequest) returns (TaxReceipt);
 }
 

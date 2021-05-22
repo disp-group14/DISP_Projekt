@@ -11,6 +11,7 @@ namespace TaxService.SAL
     public class TaxServiceManager : ITaxServiceManagerBase
     {
         private readonly ITaxDataManager taxDataManager;
+        private readonly float taxPercentage = 10;
 
         public TaxServiceManager(ITaxDataManager taxDataManager)
         {
@@ -19,8 +20,8 @@ namespace TaxService.SAL
 
         public override async Task<TaxReceipt> TaxTransaction(TaxRequest request, ServerCallContext context)
         {
-            var tax = await taxDataManager.Insert(new Tax() { TaxPaid = request.Amount / 100, Amount = request.Amount });
-            return new TaxReceipt() { Amount = tax.Amount - tax.TaxPaid, TaxPaid = tax.TaxPaid };
+            var tax = await taxDataManager.Insert(new Tax() { Tax = request.Amount / 100 * this.taxPercentage, Amount = request.Amount, Percentage = this.taxPercentage });
+            return new TaxReceipt() { Amount = tax.Amount + tax.TaxPaid, TaxPaid = tax.TaxPaid };
         }
     }
 }

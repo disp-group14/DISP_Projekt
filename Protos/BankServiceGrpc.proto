@@ -4,7 +4,7 @@ option csharp_namespace = "BankServiceGrpc.Protos";
 
 package BankServiceGrpc;
 
-service BankService
+service IBankService
 {
  rpc Deposit (TransferRequest) returns (AccountInfo);
  rpc Withdraw (TransferRequest) returns (AccountInfo);

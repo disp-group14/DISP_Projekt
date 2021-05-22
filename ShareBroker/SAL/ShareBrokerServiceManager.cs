@@ -5,10 +5,10 @@ using ShareBrokerServiceGrpc.Protos;
 using static SalesServiceGrpc.Protos.ISalesService;
 using static PurchaseServiceGrpc.Protos.IPurchaseService;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
+using static TransactionService.Proto.ITransactionService;
 using PurchaseServiceGrpc.Protos;
 using SharedGrpc.Protos;
 using Google.Protobuf.Collections;
-using static TransactionService.Proto.ITransactionService;
 using TransactionService.Proto;
 
 namespace ShareBrokerService.SAL {

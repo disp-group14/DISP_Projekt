@@ -1,17 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using static TaxServiceGrpc.Proto.ITaxServiceManager;
+using static TaxServiceGrpc.Protos.ITaxService;
+using static OwnershipServiceGrpc.Protos.IOwnershipService;
+using static BankServiceGrpc.Protos.IBankService;
 
 namespace TransactionService
 {
@@ -29,8 +25,9 @@ namespace TransactionService
         {
             services.AddGrpc();
 
-            // IoC
-            services.AddGrpcClient<ITaxServiceManagerClient>(client => {
+            // IoC - Grpc
+            // Tax Service
+            services.AddGrpcClient<ITaxServiceClient>(client => {
                 client.Address = Configuration.GetValue<Uri>("TaxServiceUri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
@@ -38,10 +35,26 @@ namespace TransactionService
                 handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 return handler;
             });
-            
-            // Swagger
 
-            // Database Setup
+            // Bank Service
+            services.AddGrpcClient<IBankServiceClient>(client => {
+                client.Address = Configuration.GetValue<Uri>("BankServiceUri");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
+            });
+
+            // Ownership Service
+            services.AddGrpcClient<IOwnershipServiceClient>(client => {
+                client.Address = Configuration.GetValue<Uri>("BankServiceUri");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() => {
+                var handler = new HttpClientHandler();
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                return handler;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

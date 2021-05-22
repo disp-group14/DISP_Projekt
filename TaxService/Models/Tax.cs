@@ -2,7 +2,8 @@ namespace TaxService.Models
 {
     public class Tax : ModelBase
     {
-        public int Amount { get; set; }
-        public int TaxPaid { get; set; }
+        public float Amount { get; set; }
+        public float Tax { get; set; }
+        public float Percentage {get; set;}
     }
 }
