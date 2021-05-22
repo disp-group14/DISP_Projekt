@@ -22,5 +22,5 @@ TaxService
 TransactionService
 "--urls", "http://localhost:8000/;https://localhost:8001/"
 
-UserSedrvice
+UserService
 "--urls", "http://localhost:9000/;https://localhost:9001/"

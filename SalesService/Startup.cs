@@ -32,7 +32,7 @@ namespace SalesService
             services.AddTransient<ISaleRequestDataManger,SaleRequestDataManager>();
             // Share broker
             services.AddGrpcClient<IShareBrokerServiceClient>(client => {
-                client.Address = new System.Uri("https://localhost:5001");
+                client.Address = Configuration.GetValue<Uri>("ShareBrokerServiceUri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();
@@ -41,7 +41,7 @@ namespace SalesService
             });
             // Ownership service
             services.AddGrpcClient<IOwnershipServiceClient>(client => {
-                client.Address = new System.Uri("http://localhost:3000/");
+                client.Address = Configuration.GetValue<Uri>("OwnershipServiceUri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();
