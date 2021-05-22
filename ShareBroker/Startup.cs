@@ -8,7 +8,7 @@ using Microsoft.Extensions.Hosting;
 using ShareBrokerService.SAL;
 using static SalesServiceGrpc.Protos.ISalesService;
 using static PurchaseServiceGrpc.Protos.IPurchaseService;
-using static TransactionService.Proto.ITransactionService;
+using static TransactionService.Protos.ITransactionService;
 
 namespace ShareBroker
 {

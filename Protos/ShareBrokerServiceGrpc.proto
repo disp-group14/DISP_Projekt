@@ -11,24 +11,25 @@ service IShareBrokerService
 }
 
 message OfferRequest {
-    int32 stockId = 1;
-    int32 amount = 2;
-    float price = 3;
+    int32 StockId = 1;
+    int32 Amount = 2;
+    float Price = 3;
+    int32 UserId = 4;
 }
 
 message OfferRegistration {
-    string message = 1;
+    string Message = 1;
 }
 
 message OfferReceipt {
-    int32 stockId = 1;
-    int32 amount = 2;
-    float price = 3;
+    int32 StockId = 1;
+    int32 Amount = 2;
+    float Price = 3;
 }
 
 message OfferResponse {
-    oneof response {
-        OfferRegistration registration = 1;
-        OfferReceipt receipt = 2;
+    oneof Response {
+        OfferRegistration Registration = 1;
+        OfferReceipt Receipt = 2;
     }
 }

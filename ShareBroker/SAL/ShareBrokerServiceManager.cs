@@ -1,15 +1,16 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using ShareBrokerServiceGrpc.Protos;
 using static SalesServiceGrpc.Protos.ISalesService;
 using static PurchaseServiceGrpc.Protos.IPurchaseService;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
-using static TransactionService.Proto.ITransactionService;
+using static TransactionService.Protos.ITransactionService;
 using PurchaseServiceGrpc.Protos;
 using SharedGrpc.Protos;
 using Google.Protobuf.Collections;
-using TransactionService.Proto;
+using TransactionService.Protos;
 
 namespace ShareBrokerService.SAL {
     public class ShareBrokerServiceManager : IShareBrokerServiceBase 
@@ -25,31 +26,18 @@ namespace ShareBrokerService.SAL {
             this.transactionService = transactionService;
         }
 
-
-        private float sumMatchesPrice(RepeatedField<Share> matches) {
-            float accPrice = 0;
-            for (var i = 0; i < matches.Count; ++i) {
-                accPrice += matches[i].Price;
-            }
-            return accPrice;
-        }
         public override async Task<OfferResponse> SellShare(OfferRequest request, ServerCallContext context ) {
             // Find a matching purchase offer in PurchaseService
-            var response = await purchaseService.FindMatchAsync(new SaleOffer() {
+            var purchaseResponse = await purchaseService.FindMatchAsync(new SaleOffer() {
                 StockId = request.StockId,
                 Amount = request.Amount,
                 Price = request.Price
             });
 
-            if (response.Matches.Count > 0) {
+            if (purchaseResponse.Matches.Count > 0) {
                 // If a match was found, 
-                return new OfferResponse(){
-                    Receipt = new OfferReceipt() {
-                        StockId = request.StockId,
-                        Amount = response.Matches.Count,
-                        Price = sumMatchesPrice(response.Matches)
-                    }
-                };
+                return await this.performTransaction(request, purchaseResponse); // OBS!!!!! Her bliver request's sælger smidt med som køber (gennem request UserId)...
+                // Hvor skal BuyerUserId komme fra her? Burde det sendes tilbage fra purchaseService.FindMatchAsync? Burde b¨de sælger og køber's id indgå i hver handel?
             } else {
                 // If no matches were found, return a recipt
                 return new OfferResponse(){
@@ -62,31 +50,48 @@ namespace ShareBrokerService.SAL {
 
         public override async Task<OfferResponse> PurchaseShare(OfferRequest request, ServerCallContext context ) {
             // Find a matching sale offer in salesService
-            var response = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer() {
+            var salesSesponse = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer() {
                 StockId = request.StockId,
                 Amount = request.Amount,
                 Price = request.Price
             });
 
-            if (response.Matches.Count > 0) {
+            if (salesSesponse.Matches.Count > 0) {
                 // If a match was found, perform transaction
+                return await this.performTransaction(request, salesSesponse);
 
-                var transactionResponse = await this.transactionService.PerformTransactionAsync(new TransactionRequest() {});
-
-
-                return new OfferResponse(){
-                    Receipt = new OfferReceipt() {
-                        StockId = request.StockId,
-                        Amount = response.Matches.Count,
-                        Price = sumMatchesPrice(response.Matches)
-                    }
-                };
-            } // If no matches were found, return registration notice
+            } else {
+                // If no matches were found, return registration notice
                 return new OfferResponse(){
                     Registration = new OfferRegistration(){
                         Message = "We've succesfully registered your offer. Whenver a seller matches your offer, a trade will be conducted"
                     }
                 };
+            } 
+        }
+
+        private async Task<OfferResponse> performTransaction(OfferRequest request, MatchResponse matchResponse) {
+            // Calculate price
+            float transactionPrice = matchResponse.Matches.Aggregate((float)0, (acc, share) => share.Price + acc);
+
+            // Setup Transaction Request
+            TransactionRequest transactionRequest = new TransactionRequest() {
+                BuyerUserId = request.UserId,
+                Amount = transactionPrice
+            };
+            transactionRequest.ShareIds.AddRange(matchResponse.Matches.Select(share => share.Id));
+
+            // Utilize Transaction service to perform transaction
+            var transactionResponse = await this.transactionService.PerformTransactionAsync(transactionRequest);
+
+            // Return OfferResponse
+            return new OfferResponse(){
+                Receipt = new OfferReceipt() {
+                    StockId = request.StockId,
+                    Amount = matchResponse.Matches.Count,
+                    Price = transactionPrice
+                }
+            };
         }
     }
 }

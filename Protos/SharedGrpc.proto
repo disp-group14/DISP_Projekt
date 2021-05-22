@@ -9,15 +9,21 @@ message UserRegistrationRequest {
 }
 
 message Share {
-    int32 stockId = 1;
-    int32 amount = 2;
-    float price = 3;
+    int32 Id = 1;
+    int32 StockId = 2;
+    int32 Amount = 3;
+    float Price = 4;
 }
 
 message Empty {}
 
 message User {
     int32 id = 1;
+}
+
+message MatchResponse {
+    // List of all matches (can be empty)
+    repeated SharedGrpc.Share Matches = 1;
 }
 
 message AccountInfo {

@@ -7,16 +7,13 @@ package SalesServiceGrpc;
 
 service ISalesService
 {
- rpc FindMatch (PurchaseOffer) returns (MatchResponse);
+ rpc FindMatch (PurchaseOffer) returns (SharedGrpc.MatchResponse);
 }
 
 message PurchaseOffer {
     int32 StockId = 1;
-    int32 amount = 2;
-    float price = 3;
+    int32 Amount = 2;
+    float Price = 3;
+    int32 UserId = 4;
 }
 
-message MatchResponse {
-    // List of all matches (can be empty)
-    repeated SharedGrpc.Share matches = 1;
-}
