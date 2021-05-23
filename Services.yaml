@@ -23,3 +23,40 @@ spec:
         env:
           - name: DBConnection
             value: "Server=host.docker.internal,1433;Database=tax-db;User=SA;Password=StrongPassword1!;Trusted_Connection=True;Integrated Security=False;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tax-service-svc
+spec:
+  selector:
+    app: tax-service
+  ports:
+  - port: 5000 
+    targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-service
+spec:
+  selector:
+    matchLabels:
+      app: transaction-service
+  template:
+    metadata:
+      labels:
+        app: transaction-service
+    spec:
+      containers:
+      - name: transaction-service
+        image: transaction-service:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: TaxServiceUri
+            value: "https://tax-service-svc:5000"
