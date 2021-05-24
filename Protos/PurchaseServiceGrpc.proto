@@ -14,5 +14,4 @@ message SaleOffer {
     int32 StockId = 1;
     int32 Amount = 2;
     float Price = 3;
-    int32 UserId = 4;
 }

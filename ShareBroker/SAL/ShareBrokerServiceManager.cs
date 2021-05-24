@@ -50,15 +50,15 @@ namespace ShareBrokerService.SAL {
 
         public override async Task<OfferResponse> PurchaseShare(OfferRequest request, ServerCallContext context ) {
             // Find a matching sale offer in salesService
-            var salesSesponse = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer() {
+            var salesResponse = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer() {
                 StockId = request.StockId,
                 Amount = request.Amount,
                 Price = request.Price
             });
 
-            if (salesSesponse.Matches.Count > 0) {
+            if (salesResponse.Matches.Count > 0) {
                 // If a match was found, perform transaction
-                return await this.performTransaction(request, salesSesponse);
+                return await performTransaction(request, salesResponse);
 
             } else {
                 // If no matches were found, return registration notice
@@ -71,15 +71,12 @@ namespace ShareBrokerService.SAL {
         }
 
         private async Task<OfferResponse> performTransaction(OfferRequest request, MatchResponse matchResponse) {
-            // Calculate price
-            float transactionPrice = matchResponse.Matches.Aggregate((float)0, (acc, share) => share.Price + acc);
-
             // Setup Transaction Request
             TransactionRequest transactionRequest = new TransactionRequest() {
-                BuyerUserId = request.UserId,
-                Amount = transactionPrice
+                UserId = request.UserId,
             };
-            transactionRequest.ShareIds.AddRange(matchResponse.Matches.Select(share => share.Id));
+
+            transactionRequest.Shares.AddRange(matchResponse.Matches);
 
             // Utilize Transaction service to perform transaction
             var transactionResponse = await this.transactionService.PerformTransactionAsync(transactionRequest);
@@ -89,7 +86,7 @@ namespace ShareBrokerService.SAL {
                 Receipt = new OfferReceipt() {
                     StockId = request.StockId,
                     Amount = matchResponse.Matches.Count,
-                    Price = transactionPrice
+                    Price = 8888888888888 // TODO 
                 }
             };
         }

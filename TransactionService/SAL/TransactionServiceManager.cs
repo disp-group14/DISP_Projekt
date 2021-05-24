@@ -31,6 +31,14 @@ namespace TransactionService.SAL
             // All rpcs are critical here. If one fails, all should undo changes. E.g. if buyer's BankService throws an error, ownership should not be changed.
             // How is fallback typically implemented in distributed systems?
 
+            // Update ownership
+            ChangeOwnershipRequest ownershipRequest = new ChangeOwnershipRequest() {
+                NewUserId = request.BuyerUserId
+            };
+
+            ownershipRequest.ShareIds.AddRange(request.Shares);
+            ShareHolderResponse buyerShareHolder = await this.ownershipServiceClient.ChangeOwnershipAsync(ownershipRequest);
+
             // Tax transaction
             TaxReceipt taxReceipt = await this.taxServiceClient.TaxTransactionAsync(new TaxRequest() {
                 Amount = request.Amount
@@ -41,12 +49,6 @@ namespace TransactionService.SAL
                 Amount = taxReceipt.Amount
             });
 
-            // Update ownership
-            ChangeOwnershipRequest ownershipRequest = new ChangeOwnershipRequest() {
-                NewUserId = request.BuyerUserId
-            };
-            ownershipRequest.ShareIds.AddRange(request.ShareIds);
-            ShareHolderResponse buyerShareHolder = await this.ownershipServiceClient.ChangeOwnershipAsync(ownershipRequest);
 
             // Respond
             return new AccountInfo(buyerAccount);

@@ -11,10 +11,8 @@ service ITransactionService
 }
 
 message TransactionRequest {
-    repeated int32 ShareIds = 1;
-    int32 BuyerUserId = 2;
-    int32 SellerUserId = 3;
-    float Amount = 4;
+    repeated SharedGrpc.Share Shares = 1;
+    int32 UserId = 2;
 }
 
 message TransactionReceipt {

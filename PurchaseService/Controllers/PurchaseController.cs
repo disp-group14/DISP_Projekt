@@ -42,16 +42,12 @@ namespace SalesService.Controllers
         [HttpPost]
         public async Task<OfferResponse> Post(PurchaseRequest purchaseRequest)
         {
-            // Verify user ownership
-            var response = ownershipServiceClient.GetShareHolder(new ShareHolderRequest(){
-                UserId = purchaseRequest.UserId
-            });
-
             // Return result from share broker
             var brokerResponse = await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
                 StockId = purchaseRequest.StockId,
                 Amount = purchaseRequest.Amount,
-                Price = purchaseRequest.Price
+                Price = purchaseRequest.Price,
+                UserId = purchaseRequest.UserId
             });
             
             if (brokerResponse.ResponseCase == OfferResponse.ResponseOneofCase.Registration) {

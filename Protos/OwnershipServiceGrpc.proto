@@ -17,15 +17,15 @@ message ShareHolderRequest {
 }
 
 message ShareHolderResponse {
-    optional ShareHolder shareHolder = 1;
+    repeated ShareHolder shareHolders = 1;
 }
 
 message ShareHolder {
     int32 UserId = 1;
-    repeated SharedGrpc.Share Shares = 2;
+    float Amount = 2
 }
 
 message ChangeOwnershipRequest {
     int32 NewUserId = 1;
-    repeated int32 ShareIds = 2;
+    repeated SharedGrpc.Share Shares = 2;
 }
