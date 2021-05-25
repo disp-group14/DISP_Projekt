@@ -7,6 +7,8 @@ RUN dotnet restore
 COPY ./Protos/ShareBrokerServiceGrpc.proto ./Protos/
 COPY ./Protos/SalesServiceGrpc.proto ./Protos/
 COPY ./Protos/PurchaseServiceGrpc.proto ./Protos/
+COPY ./Protos/TransactionServiceGrpc.proto ./Protos/
+COPY ./Protos/SharedGrpc.proto ./Protos/
 
 COPY . ./source
 
