@@ -70,7 +70,6 @@ namespace ShareBroker
 
             app.UseRouting();
 
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<ShareBrokerServiceManager>();

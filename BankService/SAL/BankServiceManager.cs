@@ -4,11 +4,12 @@ using BankService.DAL;
 using BankService.Models;
 using BankServiceGrpc.Protos;
 using Grpc.Core;
-using static BankServiceGrpc.Protos.BankService;
+using SharedGrpc.Protos;
+using static BankServiceGrpc.Protos.IBankService;
 
 namespace BankService.SAL
 {
-    public class BankServiceManager : BankServiceBase
+    public class BankServiceManager : IBankServiceBase
     {
         private readonly IAccountDataManager accountDataManager;
 
@@ -17,14 +18,39 @@ namespace BankService.SAL
             this.accountDataManager = accountDataManager;
         }
 
-        public override Task<TransactionRequest> Transaction(TransactionRequest request, ServerCallContext context)
+        public override async Task<AccountInfo> Withdraw(TransferRequest request, ServerCallContext context)
         {
-            return Task.FromResult(new TransactionRequest());
+            var account = await accountDataManager.GetOne(account => account.UserId == request.UserId);
+            account.Balance -= request.Amount;
+
+            await accountDataManager.Update(account);
+
+            return new AccountInfo()
+            {
+                UserId = account.UserId,
+                Balance = account.Balance
+            };
         }
+
+        public override async Task<AccountInfo> Deposit(TransferRequest request, ServerCallContext context)
+        {
+            var account = await accountDataManager.GetOne(account => account.UserId == request.UserId);
+            account.Balance += request.Amount;
+
+            await accountDataManager.Update(account);
+
+            return new AccountInfo()
+            {
+                UserId = account.UserId,
+                Balance = account.Balance
+            };
+        }
+
         public override async Task<AccountInfo> RegisterUser(UserRegistrationRequest request, ServerCallContext context)
         {
-            var account = await accountDataManager.Insert(new Account(){UserId = request.UserId, Balance = 0});
-            return new AccountInfo(){
+            var account = await accountDataManager.Insert(new Account() { UserId = request.UserId, Balance = 0 });
+            return new AccountInfo()
+            {
                 UserId = account.UserId,
                 Balance = account.Balance
             };

@@ -7,18 +7,18 @@ package OwnershipServiceGrpc;
 
 service IOwnershipService
 {
-    rpc GetShareHolder (ShareHolderRequest) returns (ShareHolderResponse);
+    rpc GetSharesInStock (SharesInStockRequest) returns (SharesInStockResponse);
     rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (SharedGrpc.Empty);
-    rpc ChangeOwnership (ChangeOwnershipRequest) returns (ChangeOwnershipResponse);
+    rpc ChangeOwnership (ChangeOwnershipRequest) returns (SharedGrpc.Empty);
 }
 
-message ShareHolderRequest {
+message SharesInStockRequest {
     int32 UserId = 1;
     int32 StockId = 2;
 }
 
-message ShareHolderResponse {
-    ShareHolder shareHolder = 1;
+message SharesInStockResponse {
+    repeated SharedGrpc.Share Shares = 1;
 }
 
 message ShareHolder {
@@ -33,7 +33,9 @@ message Voucher {
 
 message ChangeOwnershipRequest {
     int32 NewUserId = 1;
-    repeated SharedGrpc.Share Shares = 2;
+    int32 OldUserId = 2;
+    int32 StockId = 3;
+    int32 Amount = 4;
 }
 
 message ChangeOwnershipResponse {

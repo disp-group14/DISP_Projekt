@@ -1,6 +1,6 @@
 using BankServiceGrpc.Protos;
 using Microsoft.AspNetCore.Mvc;
-using static BankServiceGrpc.Protos.BankService;
+using static BankServiceGrpc.Protos.IBankService;
 
 namespace BankService.Controllers
 {

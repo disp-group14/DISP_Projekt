@@ -38,7 +38,6 @@ namespace SalesService.Controllers
         [HttpPost]
         public async Task<OfferResponse> Post(PurchaseRequest purchaseRequest)
         {
-            var offer = new OfferRequest();
             // Return result from share broker
             var brokerResponse = await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
                 StockId = purchaseRequest.StockId,

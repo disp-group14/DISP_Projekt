@@ -11,7 +11,7 @@ message UserRegistrationRequest {
 message Share {
     int32 Id = 1;
     int32 StockId = 2;
-    int32 Amount = 3;
+    optional int32 Amount = 3;
     optional float Price = 4; // Used for PurchaseService & SalesService
 }
 
@@ -28,5 +28,5 @@ message MatchResponse {
 
 message AccountInfo {
     int32 UserId = 1;
-    int32 Balance = 2;
+    float Balance = 2;
 }

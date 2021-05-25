@@ -5,31 +5,82 @@ using Grpc.Core;
 using PurchaseService.DAL;
 using PurchaseService.Models;
 using PurchaseServiceGrpc.Protos;
-using Share = SharedGrpc.Protos.Share;
-using MatchResponse = SharedGrpc.Protos.MatchResponse;
+using PurchaseRequestGrpc = PurchaseServiceGrpc.Protos.PurchaseRequest;
 using SharedGrpc.Protos;
 using static PurchaseServiceGrpc.Protos.IPurchaseService;
 
-namespace PurchaseService.SAL {
-    public class PurchaseServiceManager : IPurchaseServiceBase 
+namespace PurchaseService.SAL
+{
+    public class PurchaseServiceManager : IPurchaseServiceBase
     {
-        private readonly IPurchaseRequestDataManger dataManager;
+        private readonly IPurchaseRequestDataManger _purchaseDataManager;
 
-        public PurchaseServiceManager(IPurchaseRequestDataManger dataManager)
+        public PurchaseServiceManager(IPurchaseRequestDataManger purchaseDataManager)
         {
-            this.dataManager = dataManager;
+            _purchaseDataManager = purchaseDataManager;
         }
 
-        // public override async Task<MatchResponse> FindMatch(SaleOffer saleOffer, ServerCallContext context ) {
-        //     var MatchResponse = new MatchResponse();
-        //     var matches = (await this.dataManager.Get(purchaseRequest => purchaseRequest.StockId == saleOffer.StockId))
-        //         .Where(offer => offer.Price <= saleOffer.Price)
-        //         .Select(purchaseRequest => (new Share {
-        //         StockId = purchaseRequest.Id,
-        //         Amount = purchaseRequest.Amount
-        //     }));
-        //     MatchResponse.Matches.AddRange(matches);
-        //     return MatchResponse;
-        // }
+        public override async Task<PurchaseRequestList> FindMatch(SaleOffer saleOffer, ServerCallContext context)
+        {
+            var response = new PurchaseRequestList();
+            // Get All purchase requests where stockId matches and price is lower or equal to offer.
+            var purchaseRequests = (await this._purchaseDataManager.Get(purchaseRequest => purchaseRequest.StockId == saleOffer.StockId
+            && purchaseRequest.Price <= saleOffer.Price)).OrderBy(share => share.Price);
+
+            // Loop through purchase requests 
+            for (int index = 0; index < purchaseRequests.Count(); index++)
+            {   
+                // Convert to single object for easier use in logic
+                var request = purchaseRequests.ToList()[index];
+
+                // If amount matches exactly
+                if (request.Amount == saleOffer.Amount)
+                {
+                    response.PurchaseRequests.Add(new PurchaseRequestGrpc()
+                    {
+                        Price = request.Price,
+                        StockId = request.Id,
+                        Amount = request.Amount,
+                        BuyerUserId = request.UserId
+                    });
+                    await _purchaseDataManager.Delete(request);
+                    break;
+                }
+                // purchase request amount is higher than saleOffer
+                else if (request.Amount > saleOffer.Amount)
+                {
+                    response.PurchaseRequests.Add(new PurchaseRequestGrpc()
+                    {
+                        Price = request.Price,
+                        StockId = request.Id,
+                        Amount = saleOffer.Amount,
+                        BuyerUserId = request.UserId
+                    });
+
+                    request.Amount -= saleOffer.Amount;
+                    await _purchaseDataManager.Update(request);
+
+                    break;
+                }
+                // purchase request amount 
+                else if (request.Amount < saleOffer.Amount)
+                {
+                    response.PurchaseRequests.Add(new PurchaseRequestGrpc()
+                    {
+                        Price = request.Price,
+                        StockId = request.Id,
+                        Amount = request.Amount,
+                        BuyerUserId = request.UserId
+                    });
+                    saleOffer.Amount -= request.Amount;
+
+                    await _purchaseDataManager.Delete(request);
+                }
+
+            }
+
+            return response;
+        }
+
     }
 }

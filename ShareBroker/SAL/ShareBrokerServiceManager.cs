@@ -11,9 +11,12 @@ using PurchaseServiceGrpc.Protos;
 using SharedGrpc.Protos;
 using Google.Protobuf.Collections;
 using TransactionService.Protos;
+using System.Collections.Generic;
+using SalesServiceGrpc.Protos;
 
-namespace ShareBrokerService.SAL {
-    public class ShareBrokerServiceManager : IShareBrokerServiceBase 
+namespace ShareBrokerService.SAL
+{
+    public class ShareBrokerServiceManager : IShareBrokerServiceBase
     {
         private readonly ISalesServiceClient salesService;
         private readonly IPurchaseServiceClient purchaseService;
@@ -26,67 +29,121 @@ namespace ShareBrokerService.SAL {
             this.transactionService = transactionService;
         }
 
-        public override async Task<OfferResponse> SellShare(OfferRequest request, ServerCallContext context ) {
+        public override async Task<OfferResponse> SellShare(OfferRequest request, ServerCallContext context)
+        {
             // Find a matching purchase offer in PurchaseService
-            var purchaseResponse = await purchaseService.FindMatchAsync(new SaleOffer() {
+            var purchaseResponse = await purchaseService.FindMatchAsync(new SaleOffer()
+            {
                 StockId = request.StockId,
                 Amount = request.Amount,
                 Price = request.Price
             });
 
-            if (purchaseResponse.Matches.Count > 0) {
+            if (purchaseResponse.PurchaseRequests.Count > 0)
+            {
                 // If a match was found, 
-                return await this.performTransaction(request, purchaseResponse); // OBS!!!!! Her bliver request's sælger smidt med som køber (gennem request UserId)...
-                // Hvor skal BuyerUserId komme fra her? Burde det sendes tilbage fra purchaseService.FindMatchAsync? Burde b¨de sælger og køber's id indgå i hver handel?
-            } else {
+                return await this.performTransaction(request, purchaseResponse);
+            }
+            else
+            {
                 // If no matches were found, return a recipt
-                return new OfferResponse(){
-                    Registration = new OfferRegistration(){
+                return new OfferResponse()
+                {
+                    Registration = new OfferRegistration()
+                    {
                         Message = "We've succesfully registered your offer. Whenver a buyer matches your offer, a trade will be conducted"
                     }
                 };
             }
         }
 
-        public override async Task<OfferResponse> PurchaseShare(OfferRequest request, ServerCallContext context ) {
+        public override async Task<OfferResponse> PurchaseShare(OfferRequest request, ServerCallContext context)
+        {
             // Find a matching sale offer in salesService
-            var salesResponse = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer() {
+            var salesResponse = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer()
+            {
                 StockId = request.StockId,
                 Amount = request.Amount,
                 Price = request.Price
             });
 
-            if (salesResponse.Matches.Count > 0) {
+            if (salesResponse.SaleRequests.Count > 0)
+            {
                 // If a match was found, perform transaction
                 return await performTransaction(request, salesResponse);
 
-            } else {
+            }
+            else
+            {
                 // If no matches were found, return registration notice
-                return new OfferResponse(){
-                    Registration = new OfferRegistration(){
+                return new OfferResponse()
+                {
+                    Registration = new OfferRegistration()
+                    {
                         Message = "We've succesfully registered your offer. Whenver a seller matches your offer, a trade will be conducted"
                     }
                 };
-            } 
+            }
         }
 
-        private async Task<OfferResponse> performTransaction(OfferRequest request, MatchResponse matchResponse) {
+        private async Task<OfferResponse> performTransaction(OfferRequest offerRequest, SaleRequestList saleRequestList)
+        {
             // Setup Transaction Request
-            TransactionRequest transactionRequest = new TransactionRequest() {
-                UserId = request.UserId,
+            float totalAmountPaid = 0.0F;
+            foreach (var saleRequest in saleRequestList.SaleRequests)
+            {
+                var transactionRequest = new TransactionRequest()
+                {
+                    StockId = saleRequest.StockId,
+                    ShareAmount = saleRequest.Amount,
+                    SharePrice = saleRequest.Price,
+                    SellerUserId = saleRequest.SellerUserId,
+                    BuyerUserId = offerRequest.UserId
+                };
+
+                var transactionResponse = await transactionService.PerformTransactionAsync(transactionRequest);
+                // Add up total
+                totalAmountPaid += transactionResponse.TotalPrice;
+            }
+
+            return new OfferResponse()
+            {
+                Receipt = new OfferReceipt()
+                {
+                    StockId = offerRequest.StockId,
+                    Amount = offerRequest.Amount,
+                    Price = totalAmountPaid
+                }
             };
+        }
 
-            transactionRequest.Shares.AddRange(matchResponse.Matches);
+        private async Task<OfferResponse> performTransaction(OfferRequest offerRequest, PurchaseRequestList purchaseRequests)
+        {
+            float totalAmountPaid = 0.0F;
+            foreach (var purchaseRequest in purchaseRequests.PurchaseRequests)
+            {
+                var transactionRequest = new TransactionRequest()
+                {
+                    StockId = purchaseRequest.StockId,
+                    ShareAmount = purchaseRequest.Amount,
+                    SharePrice = purchaseRequest.Price,
+                    SellerUserId = offerRequest.UserId,
+                    BuyerUserId = purchaseRequest.BuyerUserId
+                };
 
-            // Utilize Transaction service to perform transaction
-            var transactionResponse = await this.transactionService.PerformTransactionAsync(transactionRequest);
+                var transactionResponse = await transactionService.PerformTransactionAsync(transactionRequest);
+                // Add up total
+                totalAmountPaid += transactionResponse.TotalPrice;
+            }
 
-            // Return OfferResponse
-            return new OfferResponse(){
-                Receipt = new OfferReceipt() {
-                    StockId = request.StockId,
-                    Amount = matchResponse.Matches.Count,
-                    Price = 8888888888888 // TODO 
+
+            return new OfferResponse()
+            {
+                Receipt = new OfferReceipt()
+                {
+                    StockId = offerRequest.StockId,
+                    Amount = offerRequest.Amount,
+                    Price = totalAmountPaid
                 }
             };
         }

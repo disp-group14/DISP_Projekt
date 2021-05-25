@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using static TaxServiceGrpc.Protos.ITaxService;
 using static OwnershipServiceGrpc.Protos.IOwnershipService;
 using static BankServiceGrpc.Protos.IBankService;
+using TransactionService.SAL;
 
 namespace TransactionService
 {
@@ -69,11 +70,9 @@ namespace TransactionService
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGrpcService<TransactionServiceManager>();
             });
         }
     }

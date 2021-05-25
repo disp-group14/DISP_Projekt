@@ -13,6 +13,5 @@ message TaxRequest {
 }
 
 message TaxReceipt {
-    float Amount = 1;
-    float TaxPaid = 2;
+    float TaxToPay = 1;
 }

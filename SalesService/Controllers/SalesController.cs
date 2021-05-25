@@ -40,16 +40,20 @@ namespace SalesService.Controllers
         public async Task<OfferResponse> Post(SaleRequest saleRequest)
         {
             // Verify user ownership
-            var response = ownershipServiceClient.GetShareHolder(new ShareHolderRequest(){
-                UserId = saleRequest.UserId
+            var response = await ownershipServiceClient.GetSharesInStockAsync(new SharesInStockRequest(){
+                UserId = saleRequest.UserId,
+                StockId = saleRequest.StockId
             });
 
-            if (response.ShareHolder == null) {
+            // Validate user owns correct amount of shares
+            if(response.Shares.Count < saleRequest.Amount)
+            {
                 throw new Exception("Invalid sale request. User with id: " + saleRequest.UserId.ToString() + 
-                " does not own a share in stock with id: " + saleRequest.StockId.ToString());
+                " does not own enough shares in stock with id: " + saleRequest.StockId.ToString());
             }
+
             // Return result from share broker
-            var brokerResponse = await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
+            var brokerResponse = await this.shareBrokerServiceClient.SellShareAsync(new OfferRequest() {
                 StockId = saleRequest.StockId,
                 Amount = saleRequest.Amount,
                 Price = saleRequest.Price

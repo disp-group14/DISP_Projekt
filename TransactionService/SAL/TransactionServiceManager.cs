@@ -15,43 +15,57 @@ namespace TransactionService.SAL
 {
     public class TransactionServiceManager : ITransactionServiceBase
     {
-        private readonly IBankServiceClient bankServiceClient;
+        private readonly IBankServiceClient _bankServiceClient;
         private readonly IOwnershipServiceClient ownershipServiceClient;
         private readonly ITaxServiceClient taxServiceClient;
 
         public TransactionServiceManager(IBankServiceClient bankServiceClient, IOwnershipServiceClient ownershipServiceClient, ITaxServiceClient taxServiceClient)
         {
-            this.bankServiceClient = bankServiceClient;
+            this._bankServiceClient = bankServiceClient;
             this.ownershipServiceClient = ownershipServiceClient;
             this.taxServiceClient = taxServiceClient;
         }
 
-        public async override Task<AccountInfo> PerformTransaction(TransactionRequest request, ServerCallContext context)
+        public async override Task<TransactionReceipt> PerformTransaction(TransactionRequest request, ServerCallContext context)
         {
             // All rpcs are critical here. If one fails, all should undo changes. E.g. if buyer's BankService throws an error, ownership should not be changed.
             // How is fallback typically implemented in distributed systems?
+            // To solve this implement messagequeues for financial transactions.
 
             // Update ownership
-            ChangeOwnershipRequest ownershipRequest = new ChangeOwnershipRequest() {
-                NewUserId = request.BuyerUserId
+            var changeOwnershipRequest = new ChangeOwnershipRequest()
+            {
+                NewUserId = request.BuyerUserId,
+                OldUserId = request.SellerUserId,
+                StockId = request.StockId,
+                Amount = request.ShareAmount
             };
 
-            ownershipRequest.ShareIds.AddRange(request.Shares);
-            ShareHolderResponse buyerShareHolder = await this.ownershipServiceClient.ChangeOwnershipAsync(ownershipRequest);
+            await this.ownershipServiceClient.ChangeOwnershipAsync(changeOwnershipRequest);
 
+            var totalPrice = request.ShareAmount * request.SharePrice;
             // Tax transaction
-            TaxReceipt taxReceipt = await this.taxServiceClient.TaxTransactionAsync(new TaxRequest() {
-                Amount = request.Amount
+            var taxReceipt = await this.taxServiceClient.TaxTransactionAsync(new TaxRequest()
+            {
+                Amount = totalPrice
             });
 
             // Charge buyer
-            AccountInfo buyerAccount = await this.bankServiceClient.WithdrawAsync(new TransferRequest() {
-                Amount = taxReceipt.Amount
+            await _bankServiceClient.WithdrawAsync(new TransferRequest()
+            {
+                UserId = request.BuyerUserId,
+                Amount = totalPrice
             });
 
+            // Pay seller
+            await _bankServiceClient.DepositAsync(new TransferRequest()
+            {
+                UserId = request.SellerUserId,
+                Amount = totalPrice - taxReceipt.TaxToPay
+            });
 
             // Respond
-            return new AccountInfo(buyerAccount);
+            return new TransactionReceipt(){TotalPrice = totalPrice, TaxPaid = taxReceipt.TaxToPay};
         }
 
     }

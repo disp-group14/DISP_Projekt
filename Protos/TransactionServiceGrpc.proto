@@ -7,14 +7,18 @@ package TransactionServiceGrpc;
 
 service ITransactionService
 {
-    rpc PerformTransaction (TransactionRequest) returns (SharedGrpc.AccountInfo);
+    rpc PerformTransaction (TransactionRequest) returns (TransactionReceipt);
 }
 
 message TransactionRequest {
-    repeated SharedGrpc.Share Shares = 1;
-    int32 UserId = 2;
+    int32 StockId = 1;
+    int32 ShareAmount = 2;
+    float SharePrice = 3;
+    int32 SellerUserId = 4;
+    int32 BuyerUserId = 5;
 }
 
 message TransactionReceipt {
-    SharedGrpc.AccountInfo buyerAccountInfo = 1;
+    float TotalPrice = 1;
+    float TaxPaid = 2;
 }
