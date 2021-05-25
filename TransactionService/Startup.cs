@@ -48,7 +48,7 @@ namespace TransactionService
 
             // Ownership Service
             services.AddGrpcClient<IOwnershipServiceClient>(client => {
-                client.Address = Configuration.GetValue<Uri>("BankServiceUri");
+                client.Address = Configuration.GetValue<Uri>("OwnershipServiceUri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();

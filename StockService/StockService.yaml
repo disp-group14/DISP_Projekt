@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: disp-grp14
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-service
+  namespace: disp-grp14
+spec:
+  selector:
+    matchLabels:
+      app: stock-service
+  template:
+    metadata:
+      labels:
+        app: stock-service
+    spec:
+      containers:
+      - name: stock-service
+        image: dispgrp14/stock-service:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: DBConnection
+            value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-StockService-db;User=SA;Password=F21swtdisp!!;
+---   
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-service-svc
+  namespace: disp-grp14
+spec:
+  selector:
+    app: stock-service
+  ports:
+  - port: 5000 
+    targetPort: 5000

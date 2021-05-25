@@ -4,6 +4,8 @@ WORKDIR /source
 COPY *.csproj .
 RUN dotnet restore
 
+COPY ./Protos/OwnershipServiceGrpc.proto ./Protos/
+COPY ./Protos/SharedGrpc.proto ./Protos/
 
 COPY . ./source
 

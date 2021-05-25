@@ -24,3 +24,7 @@ spec:
         env:
           - name: TaxServiceUri
             value: "https://tax-service-svc:5000"
+          - name: BankServiceUri
+            value: "https://bank-service-svc:5000"
+          - name: OwnershipServiceUri
+            value: "https://ownership-service-svc:5000"

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: disp-grp14
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: share-broker
+  namespace: disp-grp14
+spec:
+  selector:
+    matchLabels:
+      app: share-broker
+  template:
+    metadata:
+      labels:
+        app: share-broker
+    spec:
+      containers:
+      - name: share-broker
+        image: dispgrp14/share-broker:v1
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: DBConnection
+            value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-ShareBroker-db;User=SA;Password=F21swtdisp!!;
+          - name: SalesServiceUri
+            value: "https://sales-service-svc:5000"
+          - name: PurchaseServiceUri
+            value: "https://purchase-service-svc:5000"
+          - name: TransactionServiceUri
+            value: "https://transaction-service-svc:5000"
+---   
+apiVersion: v1
+kind: Service
+metadata:
+  name: share-broker-svc
+  namespace: disp-grp14
+spec:
+  selector:
+    app: share-broker
+  ports:
+  - port: 5000 
+    targetPort: 5000

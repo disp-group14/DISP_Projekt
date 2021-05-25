@@ -4,11 +4,11 @@ using BankService.DAL;
 using BankService.Models;
 using BankServiceGrpc.Protos;
 using Grpc.Core;
-using static BankServiceGrpc.Protos.BankService;
+using static BankServiceGrpc.Protos.IBankService;
 
 namespace BankService.SAL
 {
-    public class BankServiceManager : BankServiceBase
+    public class BankServiceManager : IBankServiceBase
     {
         private readonly IAccountDataManager accountDataManager;
 
