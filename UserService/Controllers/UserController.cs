@@ -10,7 +10,7 @@ using static OwnershipServiceGrpc.Protos.IOwnershipService;
 namespace UserService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("userService/[controller]")]
     [Produces("application/json")]
     public class UserController : ControllerBase
     {

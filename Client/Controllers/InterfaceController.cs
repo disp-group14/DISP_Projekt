@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Client.PurchaseService;
 using Client.SaleService;
+using Client.StockService;
 using Client.UserService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +14,14 @@ namespace Client.Controllers
         private readonly UserClient _userClient;
         private readonly PurchaseClient _purchaseClient;
         private readonly SalesClient _salesClient;
+        private readonly StockClient _stockClient;
 
-        public InterfaceController(UserClient userClient, PurchaseClient purchaseClient, SalesClient salesClient)
+        public InterfaceController(UserClient userClient, PurchaseClient purchaseClient, SalesClient salesClient, StockClient stockClient)
         {
             _userClient = userClient;
             _purchaseClient = purchaseClient;
             _salesClient = salesClient;
+            _stockClient = stockClient;
         }
 
         [HttpPost("User/Create")]
@@ -72,9 +76,9 @@ namespace Client.Controllers
         }
 
         [HttpGet("Shares")]
-        public Task<List<string>> GetListOfShares()
+        public async Task<List<Stock>> GetListOfShares()
         {
-            return null;
+            return (await _stockClient.GetAllAsync()).ToList();
         }
     }
 }

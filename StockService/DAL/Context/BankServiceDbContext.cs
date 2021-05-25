@@ -18,11 +18,11 @@ namespace UserService.DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Entity<Account>(entity => {
-            //     entity.HasIndex(e => e.Id);
+            modelBuilder.Entity<Stock>(entity => {
+                entity.HasIndex(e => e.Id);
                 
-            //     entity.HasQueryFilter(db => !db.IsDeleted);
-            // });
+                entity.HasQueryFilter(db => !db.IsDeleted);
+            });
             OnModelCreatingPartial(modelBuilder);
         }
 

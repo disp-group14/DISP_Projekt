@@ -79,7 +79,7 @@ namespace Client.PurchaseService
         public async System.Threading.Tasks.Task<System.Collections.Generic.ICollection<PurchaseRequest>> GetAsync(System.Threading.CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Purchase");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/purchaseService/Purchase");
     
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -154,7 +154,7 @@ namespace Client.PurchaseService
                 throw new System.ArgumentNullException("purchaseRequest");
     
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/Purchase");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/purchaseService/Purchase");
     
             var client_ = _httpClient;
             var disposeClient_ = false;

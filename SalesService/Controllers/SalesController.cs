@@ -14,7 +14,7 @@ using static OwnershipServiceGrpc.Protos.IOwnershipService;
 namespace SalesService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("salesService/[controller]")]
     [Produces("application/json")]
     public class SalesController : ControllerBase
     {

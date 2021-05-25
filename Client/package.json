@@ -1,12 +1,13 @@
 {
-    "name": "ClientCodeGen",
+    "name": "client-code-gen",
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "codegen": "npm run g1 && npm run g2 && npm run g3",
+        "codegen": "npm run g1 && npm run g2 && npm run g3 && npm run g4",
         "g1": "nswag swagger2csclient /input:http://localhost:9000/swagger/v1/swagger.json /namespace:Client.UserService /output:Clients/UserClient.cs /GenerateClientInterfaces:true /runtime:Net50",
         "g2": "nswag swagger2csclient /input:http://localhost:4000/swagger/v1/swagger.json /namespace:Client.PurchaseService /output:Clients/PurchaseClient.cs /GenerateClientInterfaces:true /runtime:Net50",
-        "g3": "nswag swagger2csclient /input:http://localhost:1024/swagger/v1/swagger.json /namespace:Client.SaleService /output:Clients/SaleClient.cs /GenerateClientInterfaces:true /runtime:Net50"
+        "g3": "nswag swagger2csclient /input:http://localhost:1024/swagger/v1/swagger.json /namespace:Client.SaleService /output:Clients/SaleClient.cs /GenerateClientInterfaces:true /runtime:Net50",
+        "g4": "nswag swagger2csclient /input:http://localhost:6000/swagger/v1/swagger.json /namespace:Client.StockService /output:Clients/StockClient.cs /GenerateClientInterfaces:true /runtime:Net50"
     },
     "devDependencies": {
         "nswag": "13.10.3"
