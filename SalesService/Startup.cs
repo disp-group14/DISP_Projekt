@@ -9,7 +9,7 @@ using SalesService.DAL;
 using SalesService.DAL.Context;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 using static OwnershipServiceGrpc.Protos.IOwnershipService;
-
+using System;
 
 namespace SalesService
 {

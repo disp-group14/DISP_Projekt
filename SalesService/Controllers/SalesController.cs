@@ -19,15 +19,12 @@ namespace SalesService.Controllers
     public class SalesController : ControllerBase
     {
 
-        private readonly ILogger<SalesController> _logger;
-        private readonly ILogger<SalesController> logger;
         private ISaleRequestDataManger service;
         private readonly IShareBrokerServiceClient shareBrokerServiceClient;
         private readonly IOwnershipServiceClient ownershipServiceClient;
 
-        public SalesController(ILogger<SalesController> logger, ISaleRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient, IOwnershipServiceClient ownershipServiceClient)
+        public SalesController(ISaleRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient, IOwnershipServiceClient ownershipServiceClient)
         {
-            this.logger = logger;
             this.service = service;
             this.shareBrokerServiceClient = shareBrokerServiceClient;
             this.ownershipServiceClient = ownershipServiceClient;
@@ -44,7 +41,7 @@ namespace SalesService.Controllers
         {
             // Verify user ownership
             var response = ownershipServiceClient.GetShareHolder(new ShareHolderRequest(){
-                UserId = purchaseRequest.UserId
+                UserId = saleRequest.UserId
             });
 
             if (response.ShareHolder == null) {

@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace StockService
+namespace Client
 {
     public partial class Startup
     {
@@ -27,8 +27,7 @@ namespace StockService
         {
 
             services.AddControllers();
-
-            InitDatabase(services);
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +36,10 @@ namespace StockService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
             }
+            app.UseSwaggerUi3();
+            app.UseOpenApi();
 
             app.UseHttpsRedirection();
 

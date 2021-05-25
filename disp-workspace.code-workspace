@@ -1,6 +1,10 @@
 {
 	"folders": [
 		{
+			"name": "Client",
+			"path": "Client"
+		},
+		{
 			"name": "stockweb",
 			"path": "stockweb"
 		},
@@ -49,5 +53,5 @@
 			"path": "Util"
 		}
 	],
-	"settings": {}
+	"settings": {},
 }

@@ -18,16 +18,12 @@ namespace SalesService.Controllers
     [Produces("application/json")]
     public class PurchaseController : ControllerBase
     {
-
-        private readonly ILogger<PurchaseController> _logger;
-        private readonly ILogger<PurchaseController> logger;
         private IPurchaseRequestDataManger service;
         private readonly IShareBrokerServiceClient shareBrokerServiceClient;
         private readonly IOwnershipServiceClient ownershipServiceClient;
 
-        public PurchaseController(ILogger<PurchaseController> logger, IPurchaseRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient, IOwnershipServiceClient ownershipServiceClient)
+        public PurchaseController(IPurchaseRequestDataManger service, IShareBrokerServiceClient shareBrokerServiceClient, IOwnershipServiceClient ownershipServiceClient)
         {
-            this.logger = logger;
             this.service = service;
             this.shareBrokerServiceClient = shareBrokerServiceClient;
             this.ownershipServiceClient = ownershipServiceClient;
@@ -42,6 +38,7 @@ namespace SalesService.Controllers
         [HttpPost]
         public async Task<OfferResponse> Post(PurchaseRequest purchaseRequest)
         {
+            var offer = new OfferRequest();
             // Return result from share broker
             var brokerResponse = await this.shareBrokerServiceClient.PurchaseShareAsync(new OfferRequest() {
                 StockId = purchaseRequest.StockId,
