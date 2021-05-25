@@ -6,20 +6,20 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: purchase-service
   namespace: disp-grp14
 spec:
   selector:
     matchLabels:
-      app: user-service
+      app: purchase-service
   template:
     metadata:
       labels:
-        app: user-service
+        app: purchase-service
     spec:
       containers:
-      - name: user-service
-        image: dispgrp14/user-service:v1
+      - name: purchase-service
+        image: dispgrp14/purchase-service:v1
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -32,16 +32,20 @@ spec:
         - containerPort: 5000
         env:
           - name: DBConnection
-            value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-UserService-db;User=SA;Password=F21swtdisp!!;
+            value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-PurchaseService-db;User=SA;Password=F21swtdisp!!;
+          - name: ShareBrokerServiceUri
+            value: "https://share-broker-svc:5000"
+          - name: OwnershipServiceUri
+            value: "https://ownership-service-svc:5000"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service-svc
+  name: purchase-service-svc
   namespace: disp-grp14
 spec:
   selector:
-    app: user-service
+    app: purchase-service
   ports:
   - port: 5000 
     targetPort: 5000
