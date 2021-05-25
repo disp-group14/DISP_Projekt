@@ -4,8 +4,10 @@ WORKDIR /source
 COPY *.csproj .
 RUN dotnet restore
 
-COPY ./Protos/SalesServiceGrpc.proto ./Protos/
-COPY ./Protos/ShareBrokerServiceGrpc.proto ./Protos/
+COPY ./Protos/SharedGrpc.proto ./Protos/
+COPY ./Protos/UserServiceGrpc.proto ./Protos/
+COPY ./Protos/BankServiceGrpc.proto ./Protos/
+COPY ./Protos/OwnershipServiceGrpc.proto ./Protos/
 
 COPY . ./source
 
@@ -14,4 +16,4 @@ RUN dotnet publish -c release -o /app --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app
 COPY --from=build /app ./
-ENTRYPOINT ["dotnet", "SalesService.dll"]
+ENTRYPOINT ["dotnet", "UserService.dll"]

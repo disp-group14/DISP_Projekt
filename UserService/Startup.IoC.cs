@@ -3,7 +3,7 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UserService.DAL;
-using static BankServiceGrpc.Protos.BankService;
+using static BankServiceGrpc.Protos.IBankService;
 using static OwnershipServiceGrpc.Protos.IOwnershipService;
 
 namespace UserService
@@ -16,7 +16,7 @@ namespace UserService
             services.AddTransient<IUserDataManager, UserDataManager>();
 
             // Grpc Clients
-            services.AddGrpcClient<BankServiceClient>(client =>
+            services.AddGrpcClient<IBankServiceClient>(client =>
             {
                 client.Address = Configuration.GetValue<Uri>("BankServiceUri");
             })

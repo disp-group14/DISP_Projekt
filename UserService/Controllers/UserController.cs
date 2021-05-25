@@ -4,7 +4,7 @@ using BankServiceGrpc.Protos;
 using Microsoft.AspNetCore.Mvc;
 using UserService.DAL;
 using UserService.Models;
-using static BankServiceGrpc.Protos.BankService;
+using static BankServiceGrpc.Protos.IBankService;
 using static OwnershipServiceGrpc.Protos.IOwnershipService;
 
 namespace UserService.Controllers
@@ -15,10 +15,10 @@ namespace UserService.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserDataManager userDataManager;
-        private readonly BankServiceClient bankServiceClient;
+        private readonly IBankServiceClient bankServiceClient;
         private readonly IOwnershipServiceClient ownershipServiceClient;
 
-        public UserController(IUserDataManager userDataManager, BankServiceClient bankServiceClient, IOwnershipServiceClient ownershipServiceClient)
+        public UserController(IUserDataManager userDataManager, IBankServiceClient bankServiceClient, IOwnershipServiceClient ownershipServiceClient)
         {
             this.userDataManager = userDataManager;
             this.bankServiceClient = bankServiceClient;
@@ -34,10 +34,10 @@ namespace UserService.Controllers
                 var user = await userDataManager.Insert(new User() { Username = username, Password = password });
 
                 // Register user with bank service
-                await bankServiceClient.RegisterUserAsync(new BankServiceGrpc.Protos.UserRegistrationRequest() { UserId = user.Id });
+                await bankServiceClient.RegisterUserAsync(new SharedGrpc.Protos.UserRegistrationRequest() { UserId = user.Id });
 
                 // Register user with ownership service
-                await ownershipServiceClient.RegisterUserAsync(new OwnershipServiceGrpc.Protos.UserRegistrationRequest() { UserId = user.Id });
+                await ownershipServiceClient.RegisterUserAsync(new SharedGrpc.Protos.UserRegistrationRequest() { UserId = user.Id });
 
                 return user;
             }

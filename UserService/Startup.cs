@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using UserService.DAL;
 using UserService.SAL;
-using static BankServiceGrpc.Protos.BankService;
+using static BankServiceGrpc.Protos.IBankService;
 
 namespace UserService
 {

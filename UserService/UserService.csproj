@@ -20,6 +20,7 @@
     <PackageReference Include="NSwag.AspNetCore" Version="13.10.9" />
   </ItemGroup>
   <ItemGroup>
+    <Protobuf Include=".\Protos\SharedGrpc.proto" />
     <Protobuf Include=".\Protos\UserServiceGrpc.proto" GrpcServices="Server" />
     <Protobuf Include=".\Protos\BankServiceGrpc.proto" GrpcServices="Client" />
     <Protobuf Include=".\Protos\OwnershipServiceGrpc.proto" GrpcServices="Client" />

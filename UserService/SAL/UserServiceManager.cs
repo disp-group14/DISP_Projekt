@@ -6,7 +6,7 @@ using Grpc.Core;
 using UserService.DAL;
 using UserService.Models;
 using UserServiceGrpc.Protos;
-using static BankServiceGrpc.Protos.BankService;
+using static BankServiceGrpc.Protos.IBankService;
 using static UserServiceGrpc.Protos.IUserService;
 using User = UserServiceGrpc.Protos.User;
 

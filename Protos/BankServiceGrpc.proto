@@ -9,12 +9,7 @@ service IBankService
 {
  rpc Deposit (TransferRequest) returns (SharedGrpc.AccountInfo);
  rpc Withdraw (TransferRequest) returns (SharedGrpc.AccountInfo);
- rpc RegisterUser (UserRegistrationRequest) returns (SharedGrpc.AccountInfo);
-}
-
-
-message UserRegistrationRequest {
-    int32 UserId = 1;
+ rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (SharedGrpc.AccountInfo);
 }
 
 message TransferRequest {
