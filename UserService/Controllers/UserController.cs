@@ -45,7 +45,6 @@ namespace UserService.Controllers
             {
                 throw new ApiException("Username or password not set");
             }
-
         }
 
         [HttpPost("Update")]

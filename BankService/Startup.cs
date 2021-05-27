@@ -29,7 +29,6 @@ namespace BankService
         {
             services.AddControllers();
             services.AddGrpc();
-
             // Ioc
             services.AddTransient<IAccountDataManager, AccountDataManager>();
 
@@ -51,7 +50,6 @@ namespace BankService
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
