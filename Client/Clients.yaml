@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
       - name: client
-        image: dispgrp14/client:v4
-        imagePullPolicy: IfNotPresent
+        image: dispgrp14/client:v7
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "50Mi"
