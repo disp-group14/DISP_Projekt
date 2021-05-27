@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using Client.PurchaseService;
 using Client.SaleService;
 using Client.StockService;
@@ -12,10 +13,12 @@ namespace Client
     {
         private void ConfigureIoC(IServiceCollection services)
         {
-            services.AddHttpClient<UserClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("UserServiceUri"));
-            services.AddHttpClient<PurchaseClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("PurchaseServiceUri"));
-            services.AddHttpClient<SalesClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("SalesServiceUri"));
-            services.AddHttpClient<StockClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("StockServiceUri"));
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            services.AddHttpClient<UserClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("UserServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+            services.AddHttpClient<PurchaseClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("PurchaseServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+            services.AddHttpClient<SalesClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("SalesServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+            services.AddHttpClient<StockClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("StockServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
         }
     }
 }

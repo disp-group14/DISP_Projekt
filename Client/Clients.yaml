@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: dispgrp14/client:v2
+        image: dispgrp14/client:v4
         imagePullPolicy: IfNotPresent
         resources:
           requests:
