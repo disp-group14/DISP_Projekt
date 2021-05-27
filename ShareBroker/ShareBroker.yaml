@@ -39,6 +39,8 @@ spec:
             value: "https://purchase-service-svc:5000"
           - name: TransactionServiceUri
             value: "https://transaction-service-svc:5000"
+          - name: ASPNETCORE_URLS
+            value: http://+:5000
 ---   
 apiVersion: v1
 kind: Service

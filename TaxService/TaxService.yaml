@@ -29,6 +29,8 @@ spec:
         env:
           - name: DBConnection
             value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-tax-db;User=SA;Password=F21swtdisp!!;
+          - name: ASPNETCORE_URLS
+            value: http://+:5000
 ---
 apiVersion: v1
 kind: Service

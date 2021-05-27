@@ -6,20 +6,20 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ownership-service
+  name: client
   namespace: disp-grp14
 spec:
   selector:
     matchLabels:
-      app: ownership-service
+      app: client
   template:
     metadata:
       labels:
-        app: ownership-service
+        app: client
     spec:
       containers:
-      - name: ownership-service
-        image: dispgrp14/ownership-service:v1
+      - name: client
+        image: dispgrp14/client:v1
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -31,19 +31,25 @@ spec:
         ports:
         - containerPort: 5000
         env:
-          - name: DBConnection
-            value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-OwnershipService-db;User=SA;Password=F21swtdisp!!;
+          - name: UserServiceUri
+            value: "https://user-service-svc:5000"
+          - name: PurchaseServiceUri
+            value: "https://purchase-service-svc:5000"
+          - name: SalesServiceUri
+            value: "https://sales-service-svc:5000"
+          - name: StockServiceUri
+            value: "https://stock-service-svc:5000"
           - name: ASPNETCORE_URLS
             value: http://+:5000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ownership-service-svc
+  name: client-svc
   namespace: disp-grp14
 spec:
   selector:
-    app: ownership-service
+    app: client
   ports:
   - port: 5000 
     targetPort: 5000

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "BankServiceGrpc.Protos";
+
+import "Protos/SharedGrpc.proto";
+package BankServiceGrpc;
+
+service IBankService
+{
+ rpc Deposit (TransferRequest) returns (SharedGrpc.AccountInfo);
+ rpc Withdraw (TransferRequest) returns (SharedGrpc.AccountInfo);
+ rpc RegisterUser (SharedGrpc.UserRegistrationRequest) returns (SharedGrpc.AccountInfo);
+}
+
+message TransferRequest {
+    float Amount = 1;
+    int32 UserId = 2;
+}
+

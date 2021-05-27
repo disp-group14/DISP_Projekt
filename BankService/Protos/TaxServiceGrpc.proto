@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "TaxServiceGrpc.Protos";
+
+package TaxServiceGrpc;
+
+service ITaxService {
+    rpc TaxTransaction (TaxRequest) returns (TaxReceipt);
+}
+
+message TaxRequest {
+    float Amount = 1;
+}
+
+message TaxReceipt {
+    float TaxToPay = 1;
+}

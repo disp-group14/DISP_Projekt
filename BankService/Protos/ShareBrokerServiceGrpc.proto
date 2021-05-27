@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "ShareBrokerServiceGrpc.Protos";
+
+package ShareBrokerServiceGrpc;
+
+service IShareBrokerService
+{
+ rpc SellShare (OfferRequest) returns (OfferResponse);
+ rpc PurchaseShare (OfferRequest) returns (OfferResponse);
+}
+
+message OfferRequest {
+    int32 StockId = 1;
+    int32 Amount = 2;
+    float Price = 3;
+    int32 UserId = 4;
+}
+
+message OfferRegistration {
+    string Message = 1;
+}
+
+message OfferReceipt {
+    int32 StockId = 1;
+    int32 Amount = 2;
+    float Price = 3;
+}
+
+message OfferResponse {
+    oneof Response {
+        OfferRegistration Registration = 1;
+        OfferReceipt Receipt = 2;
+    }
+}

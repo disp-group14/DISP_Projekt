@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option csharp_namespace = "SharedGrpc.Protos";
+
+package SharedGrpc;
+
+message UserRegistrationRequest {
+    int32 userId = 1;
+}
+
+message Share {
+    int32 Id = 1;
+    int32 StockId = 2;
+    optional int32 Amount = 3;
+    optional float Price = 4; // Used for PurchaseService & SalesService
+}
+
+message Empty {}
+
+message User {
+    int32 id = 1;
+}
+
+message MatchResponse {
+    // List of all matches (can be empty)
+    repeated SharedGrpc.Share Matches = 1;
+}
+
+message AccountInfo {
+    int32 UserId = 1;
+    float Balance = 2;
+}

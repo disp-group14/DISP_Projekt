@@ -28,3 +28,17 @@ spec:
             value: "https://bank-service-svc:5000"
           - name: OwnershipServiceUri
             value: "https://ownership-service-svc:5000"
+          - name: ASPNETCORE_URLS
+            value: http://+:5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-service-svc
+  namespace: disp-grp14
+spec:
+  selector:
+    app: transaction-service
+  ports:
+  - port: 5000 
+    targetPort: 5000
