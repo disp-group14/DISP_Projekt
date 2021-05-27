@@ -20,7 +20,7 @@ namespace OwnershipService
             var port = 5000;
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development") {
-                 // Load config file
+                // Load config file
                 // https://dejanstojanovic.net/aspnet/2018/december/setting-up-kestrel-port-in-configuration-file-in-aspnet-core/
                 var config = new ConfigurationBuilder()  
                 .SetBasePath(Directory.GetCurrentDirectory())  
