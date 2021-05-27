@@ -34,11 +34,11 @@ spec:
           - name: DBConnection
             value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-ShareBroker-db;User=SA;Password=F21swtdisp!!;
           - name: SalesServiceUri
-            value: "https://sales-service-svc:5000"
+            value: "http://sales-service-svc:5000"
           - name: PurchaseServiceUri
-            value: "https://purchase-service-svc:5000"
+            value: "http://purchase-service-svc:5000"
           - name: TransactionServiceUri
-            value: "https://transaction-service-svc:5000"
+            value: "http://transaction-service-svc:5000"
           - name: ASPNETCORE_URLS
             value: http://+:5000
 ---   

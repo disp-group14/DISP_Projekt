@@ -34,9 +34,9 @@ spec:
           - name: DBConnection
             value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-PurchaseService-db;User=SA;Password=F21swtdisp!!;
           - name: ShareBrokerServiceUri
-            value: "https://share-broker-svc:5000"
+            value: "http://share-broker-svc:5000"
           - name: OwnershipServiceUri
-            value: "https://ownership-service-svc:5000"
+            value: "http://ownership-service-svc:5000"
           - name: ASPNETCORE_URLS
             value: http://+:5000
 ---

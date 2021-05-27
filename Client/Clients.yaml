@@ -32,13 +32,13 @@ spec:
         - containerPort: 5000
         env:
           - name: UserServiceUri
-            value: "https://user-service-svc:5000"
+            value: "http://user-service-svc:5000"
           - name: PurchaseServiceUri
-            value: "https://purchase-service-svc:5000"
+            value: "http://purchase-service-svc:5000"
           - name: SalesServiceUri
-            value: "https://sales-service-svc:5000"
+            value: "http://sales-service-svc:5000"
           - name: StockServiceUri
-            value: "https://stock-service-svc:5000"
+            value: "http://stock-service-svc:5000"
           - name: ASPNETCORE_URLS
             value: http://+:5000
 ---

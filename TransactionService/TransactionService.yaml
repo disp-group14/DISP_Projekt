@@ -26,11 +26,11 @@ spec:
         - containerPort: 5000
         env:
           - name: TaxServiceUri
-            value: "https://tax-service-svc:5000"
+            value: "http://tax-service-svc:5000"
           - name: BankServiceUri
-            value: "https://bank-service-svc:5000"
+            value: "http://bank-service-svc:5000"
           - name: OwnershipServiceUri
-            value: "https://ownership-service-svc:5000"
+            value: "http://ownership-service-svc:5000"
           - name: ASPNETCORE_URLS
             value: http://+:5000
 ---
