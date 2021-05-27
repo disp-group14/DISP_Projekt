@@ -6,6 +6,7 @@ using Client.SaleService;
 using Client.StockService;
 using Client.UserService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace Client.Controllers
 {
@@ -16,12 +17,19 @@ namespace Client.Controllers
         private readonly SalesClient _salesClient;
         private readonly StockClient _stockClient;
 
-        public InterfaceController(UserClient userClient, PurchaseClient purchaseClient, SalesClient salesClient, StockClient stockClient)
+        public InterfaceController(UserClient userClient,
+                                   PurchaseClient purchaseClient,
+                                   SalesClient salesClient,
+                                   StockClient stockClient,
+                                   IConfiguration configuration)
         {
             _userClient = userClient;
+            _userClient.BaseUrl = configuration.GetValue<string>("UserServiceUri");
             _purchaseClient = purchaseClient;
             _salesClient = salesClient;
+            _salesClient.BaseUrl = configuration.GetValue<string>("SalesServiceUri");
             _stockClient = stockClient;
+            _stockClient.BaseUrl = configuration.GetValue<string>("StockServiceUri");
         }
 
         [HttpPost("User/Create")]
