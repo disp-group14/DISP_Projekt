@@ -23,6 +23,7 @@ namespace UserService.DAL
                 
                 entity.HasQueryFilter(db => !db.IsDeleted);
             });
+            SeedData(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 
@@ -48,6 +49,17 @@ namespace UserService.DAL
                 }
             }
             return (await base.SaveChangesAsync(true, cancellationToken));
+        }
+
+        private void SeedData(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<User>().HasData(
+                new User{Id = 1, Username = "Egon Olsen", Password = "bankkup"},
+                new User{Id = 2, Username = "Kjeld", Password = "smælderfed"},
+                new User{Id = 3, Username = "Elon Musk", Password = "tesla123"},
+                new User{Id = 4, Username = "Mette Frederiksen", Password = "minkkiller99"},
+                new User{Id = 5, Username = "Peter Falktoft", Password = "hergaarddetgodt"},
+                new User{Id = 6, Username = "Esben Bjerre", Password = "hergaardetgodt"}
+            );
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
