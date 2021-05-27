@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PurchaseService.DAL.Context;
 
-namespace PurchaseService.DAL.Migrations
+namespace PurchaseService.Migrations
 {
     [DbContext(typeof(PurchaseServiceControlDbContext))]
-    [Migration("20210503123919_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210527100520_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,9 @@ namespace PurchaseService.DAL.Migrations
                         .HasColumnType("real");
 
                     b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
