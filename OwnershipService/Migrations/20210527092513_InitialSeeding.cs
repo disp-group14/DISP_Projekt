@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace OwnershipService.DAL.Migrations
+namespace OwnershipService.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialSeeding : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,7 +27,11 @@ namespace OwnershipService.DAL.Migrations
                 name: "Share",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PurchasePrice = table.Column<float>(type: "real", nullable: false),
+                    StockId = table.Column<int>(type: "int", nullable: false),
+                    ShareHolderId = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     ModifiedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -36,8 +40,8 @@ namespace OwnershipService.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Share", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Share_ShareHolder_Id",
-                        column: x => x.Id,
+                        name: "FK_Share_ShareHolder_ShareHolderId",
+                        column: x => x.ShareHolderId,
                         principalTable: "ShareHolder",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -47,6 +51,11 @@ namespace OwnershipService.DAL.Migrations
                 name: "IX_Share_Id",
                 table: "Share",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Share_ShareHolderId",
+                table: "Share",
+                column: "ShareHolderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShareHolder_Id",

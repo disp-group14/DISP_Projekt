@@ -12,11 +12,13 @@ namespace OwnershipService
         {
             services.AddSingleton(_ => Configuration);
             string connectionString = Configuration.GetValue<string>("DBConnection");
-            services.AddDbContext<OwnershipServiceDbContext>(options => options.UseSqlServer(connectionString, builder => builder.CommandTimeout(300)));
+            services.AddDbContext<OwnershipServiceDbContext>(options => {
+                options.UseSqlServer(connectionString, builder => builder.CommandTimeout(300));
+                options.EnableSensitiveDataLogging();
+            });
             try
             {
                 OwnershipServiceDbContext dataContext = services.BuildServiceProvider().GetRequiredService<OwnershipServiceDbContext>();
-
                 dataContext.Database.Migrate();
             }
             catch (Exception e)

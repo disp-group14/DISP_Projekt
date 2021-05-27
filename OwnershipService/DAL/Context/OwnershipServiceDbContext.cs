@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,10 +35,11 @@ namespace UserService.DAL
                 entity
                     .HasOne(s => s.ShareHolder)
                     .WithMany(sh => sh.Shares)
-                    .HasForeignKey(s => s.Id);
+                    .HasForeignKey(s => s.ShareHolderId);
 
                 entity.HasQueryFilter(db => !db.IsDeleted);
             });
+            SeedData(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 
@@ -63,6 +65,60 @@ namespace UserService.DAL
                 }
             }
             return (await base.SaveChangesAsync(true, cancellationToken));
+        }
+
+        private void SeedData(ModelBuilder modelBuilder) {
+            // Create shareholders
+            List<ShareHolder> shareHolders = Enumerable.Range(1, 6).Select(index => new ShareHolder(){
+                UserId = index,
+                Id = index
+            }).ToList();
+
+            // Seed shareholders in db
+            modelBuilder.Entity<ShareHolder>().HasData(shareHolders);
+
+            var stockLookUpTable = new Dictionary<int, float>(){
+                {1, 126.85F},
+                {2,  506.98F},
+                {3, 3265.16F},
+                {4, 596.69F},
+                {5, 118.24F},
+                {6, 52.91F},
+                {7, 143.99F},
+                {8, 327.66F},
+                {9, 61.44F},
+                {10, 251.49F},
+                {11, 261.37F},
+                {12, 628.0F},
+                {13, 502.36F}, 
+                {14, 619.13F},
+                {15, 188.36F}
+            };
+
+            // Generate shares
+            var shares = new List<Share>();
+
+            foreach(var shareHolder in shareHolders) {
+                foreach(var stockPair in stockLookUpTable) {
+                Random random = new Random();
+                shares.AddRange(Enumerable.Range(shares.Count + 1, random.Next(10)).Select(index => {
+                    return new Share(){
+                        Id = index,
+                        StockId = stockPair.Key,
+                        PurchasePrice = randomPurchasePrice(stockPair.Value),
+                        ShareHolderId = shareHolder.Id 
+                    };
+                }));
+                }
+            }
+
+            modelBuilder.Entity<Share>().HasData(shares);
+        }
+
+        private float randomPurchasePrice(float marketPrice){
+            Random random = new Random();
+            int offset = random.Next(50);
+            return (random.NextDouble() > 0.5 ? marketPrice + offset : marketPrice - offset );
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

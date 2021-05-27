@@ -7,24 +7,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UserService.DAL;
 
-namespace OwnershipService.DAL.Migrations
+namespace OwnershipService.Migrations
 {
     [DbContext(typeof(OwnershipServiceDbContext))]
-    [Migration("20210510141637_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20210527092513_InitialSeeding")]
+    partial class InitialSeeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("OwnershipService.Models.Share", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
@@ -35,9 +37,20 @@ namespace OwnershipService.DAL.Migrations
                     b.Property<DateTimeOffset>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<float>("PurchasePrice")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ShareHolderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
+
+                    b.HasIndex("ShareHolderId");
 
                     b.ToTable("Share");
                 });
@@ -72,7 +85,7 @@ namespace OwnershipService.DAL.Migrations
                 {
                     b.HasOne("OwnershipService.Models.ShareHolder", "ShareHolder")
                         .WithMany("Shares")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ShareHolderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
