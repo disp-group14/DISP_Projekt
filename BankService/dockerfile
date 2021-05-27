@@ -5,6 +5,7 @@ COPY *.csproj .
 RUN dotnet restore
 
 COPY ./Protos/BankServiceGrpc.proto ./Protos/
+COPY ./Protos/SharedGrpc.proto ./Protos/
 
 COPY . ./source
 

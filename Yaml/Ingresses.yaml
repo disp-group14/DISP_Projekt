@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: grp14-ingress
+  namespace: disp-grp14
+  annotations:
+    ingress.kubernetes.io/add-base-url: 'true'
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+  labels:
+    name: grp14-ingress
+spec:
+  rules:
+    - host: grp14-disp.com
+      http:
+        paths:
+        - path: "/(.*)"
+          backend:
+            serviceName: client-svc
+            servicePort: 5000
+            
