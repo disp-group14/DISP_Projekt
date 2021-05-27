@@ -42,8 +42,6 @@ namespace Client
             app.UseSwaggerUi3();
             app.UseOpenApi();
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
