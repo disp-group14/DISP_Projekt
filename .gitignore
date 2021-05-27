@@ -499,7 +499,7 @@ temp/
 
 UserService/Protos/*
 TransactionService/Protos/*
-
+BankService/Protos/*
 TaxService/Protos/*
 StockService/Protos/*
 ShareBroker/Protos/*
