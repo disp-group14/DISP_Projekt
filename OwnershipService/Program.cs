@@ -16,19 +16,25 @@ namespace OwnershipService
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) {
-            // Load config file
-            // https://dejanstojanovic.net/aspnet/2018/december/setting-up-kestrel-port-in-configuration-file-in-aspnet-core/
-            var config = new ConfigurationBuilder()  
-            .SetBasePath(Directory.GetCurrentDirectory())  
-            .AddJsonFile("appsettings.Development.json", optional: false)  
-            .Build();
+            // Default cluster port
+            var port = 5000;
+
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development") {
+                 // Load config file
+                // https://dejanstojanovic.net/aspnet/2018/december/setting-up-kestrel-port-in-configuration-file-in-aspnet-core/
+                var config = new ConfigurationBuilder()  
+                .SetBasePath(Directory.GetCurrentDirectory())  
+                .AddJsonFile("appsettings.Development.json", optional: false)  
+                .Build();
+                port = config.GetValue<int>("gRPCClientPort");
+            }
         
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        options.Listen(IPAddress.Any, config.GetValue<int>("gRPCClientPort"), listenOptions =>
+                        options.Listen(IPAddress.Any, port, listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http2;
                         });
