@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: stock-service
-        image: dispgrp14/stock-service:v2
+        image: dispgrp14/stock-service:v2.0
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -35,7 +35,7 @@ spec:
             value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-StockService-db;User=SA;Password=F21swtdisp!!;
           - name: ASPNETCORE_URLS
             value: http://+:5000
-          - name: gRPCClientPort
+          - name: HTTP1PORT
             value: "5000"
 ---   
 apiVersion: v1

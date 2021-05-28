@@ -24,10 +24,14 @@ namespace Client.Controllers
                                    IConfiguration configuration)
         {
             _userClient = userClient;
-            _userClient.BaseUrl = configuration.GetValue<string>("UserServiceUri");
+            _userClient.BaseUrl = configuration.GetValue<string>("UserServiceHttp1Uri");
+
             _purchaseClient = purchaseClient;
+            _purchaseClient.BaseUrl = configuration.GetValue<string>("PurchaseServiceHttp1Uri");
+
             _salesClient = salesClient;
-            _salesClient.BaseUrl = configuration.GetValue<string>("SalesServiceUri");
+            _salesClient.BaseUrl = configuration.GetValue<string>("SalesServiceHttp1Uri");
+
             _stockClient = stockClient;
             _stockClient.BaseUrl = configuration.GetValue<string>("StockServiceUri");
         }

@@ -19,8 +19,8 @@ namespace StockService
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        Console.WriteLine("Stock Service now serves HTTP 1 at: " + Int32.Parse(Environment.GetEnvironmentVariable("HTTP2PORT")));
-                        options.Listen(IPAddress.Any, Int32.Parse(Environment.GetEnvironmentVariable("HTTP2PORT")), listenOptions =>
+                        Console.WriteLine("Stock Service now serves HTTP 1 at: " + Int32.Parse(Environment.GetEnvironmentVariable("HTTP1PORT")));
+                        options.Listen(IPAddress.Any, Int32.Parse(Environment.GetEnvironmentVariable("HTTP1PORT")), listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http1;
                         });

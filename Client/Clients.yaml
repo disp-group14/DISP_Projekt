@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: client
-        image: dispgrp14/client:v9
+        image: dispgrp14/client:v2.2
         imagePullPolicy: Always
         resources:
           requests:
@@ -31,11 +31,11 @@ spec:
         ports:
         - containerPort: 5000
         env:
-          - name: UserServiceUri
+          - name: UserServiceHttp1Uri
             value: "http://user-service-svc:5000"
-          - name: PurchaseServiceUri
+          - name: PurchaseServiceHttp1Uri
             value: "http://purchase-service-svc:5000"
-          - name: SalesServiceUri
+          - name: SalesServiceHttp1Uri
             value: "http://sales-service-svc:5000"
           - name: StockServiceUri
             value: "http://stock-service-svc:5000"
