@@ -43,7 +43,7 @@ namespace StockService
                 app.UseOpenApi();
             }
 
-            app.UseHttpsRedirection();
+             
 
             app.UseRouting();
 

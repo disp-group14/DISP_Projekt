@@ -66,7 +66,7 @@ namespace ShareBroker
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+             
 
             app.UseRouting();
 

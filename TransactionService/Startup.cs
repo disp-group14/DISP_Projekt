@@ -66,7 +66,7 @@ namespace TransactionService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+             
 
             app.UseRouting();
 

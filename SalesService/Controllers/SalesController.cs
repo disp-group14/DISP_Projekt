@@ -56,7 +56,8 @@ namespace SalesService.Controllers
             var brokerResponse = await this.shareBrokerServiceClient.SellShareAsync(new OfferRequest() {
                 StockId = saleRequest.StockId,
                 Amount = saleRequest.Amount,
-                Price = saleRequest.Price
+                Price = saleRequest.Price,
+                UserId = saleRequest.UserId
             });
             
             if (brokerResponse.ResponseCase == OfferResponse.ResponseOneofCase.Registration) {

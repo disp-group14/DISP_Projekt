@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaxService.DAL;
 
-namespace TaxService.DAL.Migrations
+namespace TaxService.Migrations
 {
     [DbContext(typeof(TaxServiceDbContext))]
     partial class TaxServiceDbContextModelSnapshot : ModelSnapshot
@@ -26,8 +26,8 @@ namespace TaxService.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
 
                     b.Property<DateTimeOffset>("CreatedOn")
                         .HasColumnType("datetimeoffset");
@@ -38,8 +38,11 @@ namespace TaxService.DAL.Migrations
                     b.Property<DateTimeOffset>("ModifiedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<int>("TaxPaid")
-                        .HasColumnType("int");
+                    b.Property<float>("Percentage")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TaxPaid")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

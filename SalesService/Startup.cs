@@ -10,6 +10,7 @@ using SalesService.DAL.Context;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 using static OwnershipServiceGrpc.Protos.IOwnershipService;
 using System;
+using SalesService.SAL;
 
 namespace SalesService
 {
@@ -25,8 +26,8 @@ namespace SalesService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerDocument();
             services.AddControllers();
+            services.AddGrpc();
 
             // IoC
             services.AddTransient<ISaleRequestDataManger,SaleRequestDataManager>();
@@ -48,6 +49,7 @@ namespace SalesService
                 handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 return handler;
             });
+            services.AddSwaggerDocument();
 
 
             string connectionString = Configuration.GetValue<string>("DBConnection");
@@ -67,8 +69,6 @@ namespace SalesService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthorization();
@@ -76,6 +76,7 @@ namespace SalesService
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<SalesServiceManager>();
             });
         }
     }

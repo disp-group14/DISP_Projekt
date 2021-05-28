@@ -39,7 +39,7 @@ namespace PurchaseService.SAL
                     response.PurchaseRequests.Add(new PurchaseRequestGrpc()
                     {
                         Price = request.Price,
-                        StockId = request.Id,
+                        StockId = request.StockId,
                         Amount = request.Amount,
                         BuyerUserId = request.UserId
                     });
@@ -52,7 +52,7 @@ namespace PurchaseService.SAL
                     response.PurchaseRequests.Add(new PurchaseRequestGrpc()
                     {
                         Price = request.Price,
-                        StockId = request.Id,
+                        StockId = request.StockId,
                         Amount = saleOffer.Amount,
                         BuyerUserId = request.UserId
                     });
@@ -68,7 +68,7 @@ namespace PurchaseService.SAL
                     response.PurchaseRequests.Add(new PurchaseRequestGrpc()
                     {
                         Price = request.Price,
-                        StockId = request.Id,
+                        StockId = request.StockId,
                         Amount = request.Amount,
                         BuyerUserId = request.UserId
                     });

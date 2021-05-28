@@ -38,7 +38,7 @@ namespace SalesService.SAL
                     response.SaleRequests.Add(new SaleRequestGrpc()
                     {
                         Price = request.Price,
-                        StockId = request.Id,
+                        StockId = request.StockId,
                         Amount = request.Amount,
                         SellerUserId = request.UserId
                     });
@@ -51,7 +51,7 @@ namespace SalesService.SAL
                     response.SaleRequests.Add(new SaleRequestGrpc()
                     {
                         Price = request.Price,
-                        StockId = request.Id,
+                        StockId = request.StockId,
                         Amount = purchaseOffer.Amount,
                         SellerUserId = request.UserId
                     });
@@ -67,7 +67,7 @@ namespace SalesService.SAL
                     response.SaleRequests.Add(new SaleRequestGrpc()
                     {
                         Price = request.Price,
-                        StockId = request.Id,
+                        StockId = request.StockId,
                         Amount = request.Amount,
                         SellerUserId = request.UserId
                     });
