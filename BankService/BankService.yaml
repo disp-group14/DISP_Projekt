@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: bank-service
-        image: dispgrp14/bank-service:v4
+        image: dispgrp14/bank-service:v5
         imagePullPolicy: IfNotPresent
         resources:
           requests:
@@ -35,6 +35,8 @@ spec:
             value: Server=mssql-deployment.default.svc.cluster.local;Database=grp14-BankService-db;User=SA;Password=F21swtdisp!!;
           - name: ASPNETCORE_URLS
             value: http://+:5000
+          - name: gRPCClientPort
+            value: "5000"
 ---
 apiVersion: v1
 kind: Service

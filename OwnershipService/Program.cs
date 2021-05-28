@@ -15,26 +15,14 @@ namespace OwnershipService
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) {
-            // Default cluster port
-            var port = 5000;
-
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development") {
-                // Load config file
-                // https://dejanstojanovic.net/aspnet/2018/december/setting-up-kestrel-port-in-configuration-file-in-aspnet-core/
-                var config = new ConfigurationBuilder()  
-                .SetBasePath(Directory.GetCurrentDirectory())  
-                .AddJsonFile("appsettings.Development.json", optional: false)  
-                .Build();
-                port = config.GetValue<int>("gRPCClientPort");
-            }
-        
+        public static IHostBuilder CreateHostBuilder(string[] args) {   
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        options.Listen(IPAddress.Any, port, listenOptions =>
+                        Console.WriteLine("Ownership Service now serves HTTP 2 at: " + Int32.Parse(Environment.GetEnvironmentVariable("gRPCClientPort")));
+                        options.Listen(IPAddress.Any, Int32.Parse(Environment.GetEnvironmentVariable("gRPCClientPort")), listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http2;
                         });
