@@ -243,7 +243,7 @@ namespace Client.StockService
         public string Name { get; set; }
     
         [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Always)]
-        public int Price { get; set; }
+        public float Price { get; set; }
     
     
     }

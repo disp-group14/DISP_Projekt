@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: stock-service
-        image: dispgrp14/stock-service:v1
+        image: dispgrp14/stock-service:v2
         imagePullPolicy: IfNotPresent
         resources:
           requests:
