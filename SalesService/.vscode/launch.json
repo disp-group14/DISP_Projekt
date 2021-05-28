@@ -15,7 +15,9 @@
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "HTTP1PORT": "1024",
+                "HTTP2PORT": "1025"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

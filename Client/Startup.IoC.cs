@@ -15,9 +15,9 @@ namespace Client
         {
             HttpClientHandler clientHandler = new HttpClientHandler();
             clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            services.AddHttpClient<UserClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("UserServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
-            services.AddHttpClient<PurchaseClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("PurchaseServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
-            services.AddHttpClient<SalesClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("SalesServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+            services.AddHttpClient<UserClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("UserServiceHTTP1Uri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+            services.AddHttpClient<PurchaseClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("PurchaseServiceHttp1Uri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
+            services.AddHttpClient<SalesClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("SalesServiceHttp1Uri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
             services.AddHttpClient<StockClient>(Client => Client.BaseAddress = Configuration.GetValue<Uri>("StockServiceUri")).ConfigurePrimaryHttpMessageHandler(() => clientHandler);
         }
     }

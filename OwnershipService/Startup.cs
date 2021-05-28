@@ -26,15 +26,12 @@ namespace OwnershipService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddSwaggerDocument();
             services.AddGrpc();
-            services.AddControllers();
 
             // IoC
             ConfigureIoC(services);
 
-            // 
+            // Init Database
             InitDatabase(services);
         }
 
@@ -44,20 +41,13 @@ namespace OwnershipService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseOpenApi();
-                app.UseSwaggerUi3();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<OwnershipServiceManager>();
-                endpoints.MapControllers();
             });
         }
     }

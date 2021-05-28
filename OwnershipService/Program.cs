@@ -1,10 +1,9 @@
 using System;
-using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+
 
 namespace OwnershipService
 {
@@ -21,8 +20,8 @@ namespace OwnershipService
                 {
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        Console.WriteLine("Ownership Service now serves HTTP 2 at: " + Int32.Parse(Environment.GetEnvironmentVariable("gRPCClientPort")));
-                        options.Listen(IPAddress.Any, Int32.Parse(Environment.GetEnvironmentVariable("gRPCClientPort")), listenOptions =>
+                        Console.WriteLine("Ownership Service now serves HTTP 2 at: " + Int32.Parse(Environment.GetEnvironmentVariable("HTTP2PORT")));
+                        options.Listen(IPAddress.Any, Int32.Parse(Environment.GetEnvironmentVariable("HTTP2PORT")), listenOptions =>
                         {
                             listenOptions.Protocols = HttpProtocols.Http2;
                         });

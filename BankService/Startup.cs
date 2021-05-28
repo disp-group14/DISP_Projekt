@@ -27,16 +27,12 @@ namespace BankService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddGrpc();
             // Ioc
             services.AddTransient<IAccountDataManager, AccountDataManager>();
 
             // Database setup
             InitDatabase(services);
-            
-            // Swagger
-            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,19 +41,12 @@ namespace BankService
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseOpenApi();
-                app.UseSwaggerUi3();
             }
-
-            app.UseHttpsRedirection();
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<BankServiceManager>();
-                endpoints.MapControllers();
             });
         }
     }

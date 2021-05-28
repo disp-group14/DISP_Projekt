@@ -83,10 +83,22 @@ namespace Client.Controllers
             return await _salesClient.PostAsync(saleRequest);
         }
 
-        [HttpGet("Shares")]
-        public async Task<List<Stock>> GetListOfShares()
+        [HttpGet("Stock")]
+        public async Task<List<Stock>> GetListOfSStocks()
         {
             return (await _stockClient.GetAllAsync()).ToList();
+        }
+
+        [HttpGet("Share/Sale")]
+        public async Task<List<SaleService.SaleRequest>> GetListOfShareSales()
+        {
+            return (await _salesClient.GetAsync()).ToList();
+        }
+
+        [HttpGet("Share/Purchase")]
+        public async Task<List<PurchaseService.PurchaseRequest>> GetListOfSharePurchases()
+        {
+            return (await _purchaseClient.GetAsync()).ToList();
         }
     }
 }

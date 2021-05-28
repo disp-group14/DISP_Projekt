@@ -29,7 +29,7 @@ namespace ShareBroker
             
             // Sales Service
             services.AddGrpcClient<ISalesServiceClient>(client => {
-                client.Address = Configuration.GetValue<Uri>("SalesServiceUri");
+                client.Address = Configuration.GetValue<Uri>("SalesServiceHttp2Uri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();
@@ -39,7 +39,7 @@ namespace ShareBroker
 
             // Purchase Service
             services.AddGrpcClient<IPurchaseServiceClient>(client => {
-                client.Address = Configuration.GetValue<Uri>("PurchaseServiceUri");
+                client.Address = Configuration.GetValue<Uri>("PurchaseServiceHttp2Uri");
             })
             .ConfigurePrimaryHttpMessageHandler(() => {
                 var handler = new HttpClientHandler();

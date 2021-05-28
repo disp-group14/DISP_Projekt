@@ -8,10 +8,7 @@ using static PurchaseServiceGrpc.Protos.IPurchaseService;
 using static ShareBrokerServiceGrpc.Protos.IShareBrokerService;
 using static TransactionService.Protos.ITransactionService;
 using PurchaseServiceGrpc.Protos;
-using SharedGrpc.Protos;
-using Google.Protobuf.Collections;
 using TransactionService.Protos;
-using System.Collections.Generic;
 using SalesServiceGrpc.Protos;
 
 namespace ShareBrokerService.SAL
@@ -60,7 +57,7 @@ namespace ShareBrokerService.SAL
         public override async Task<OfferResponse> PurchaseShare(OfferRequest request, ServerCallContext context)
         {
             // Find a matching sale offer in salesService
-            var salesResponse = await salesService.FindMatchAsync(new SalesServiceGrpc.Protos.PurchaseOffer()
+            var salesResponse = await salesService.FindMatchAsync(new PurchaseOffer()
             {
                 StockId = request.StockId,
                 Amount = request.Amount,

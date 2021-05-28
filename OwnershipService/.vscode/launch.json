@@ -16,7 +16,7 @@
             "stopAtEntry": false,
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "gRPCClientPort": "3000"
+                "HTTP2PORT": "3000"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

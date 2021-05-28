@@ -26,7 +26,6 @@ namespace PurchaseService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerDocument();
             services.AddControllers();
             services.AddGrpc();
             // IoC
@@ -49,6 +48,7 @@ namespace PurchaseService
                 handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
                 return handler;
             });
+            services.AddSwaggerDocument();
 
             string connectionString = Configuration.GetValue<string>("DBConnection");
             services.AddDbContext<PurchaseServiceControlDbContext>(options => options.UseSqlServer(connectionString, builder => builder.CommandTimeout(300)));
@@ -67,11 +67,7 @@ namespace PurchaseService
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

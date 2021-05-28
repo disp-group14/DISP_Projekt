@@ -39,6 +39,8 @@ spec:
             value: "http://bank-service-svc:5000"
           - name: OwnershipServiceUri
             value: "http://ownership-service-svc:5000"
+          - name: gRPCClientPort
+            value: "5000"
 ---
 apiVersion: v1
 kind: Service
